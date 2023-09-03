@@ -1,0 +1,65 @@
+{
+    "FightAgent": {
+        "checkpoints": [
+            {
+                "steps": 77999950,
+                "file_path": "results\\hb_05\\FightAgent\\FightAgent-77999950.onnx",
+                "reward": -18.724242517442413,
+                "creation_time": 1693622097.0331876,
+                "auxillary_file_paths": [
+                    "results\\hb_05\\FightAgent\\FightAgent-77999950.pt"
+                ]
+            },
+            {
+                "steps": 78499998,
+                "file_path": "results\\hb_05\\FightAgent\\FightAgent-78499998.onnx",
+                "reward": -15.966296309232712,
+                "creation_time": 1693622681.0471756,
+                "auxillary_file_paths": [
+                    "results\\hb_05\\FightAgent\\FightAgent-78499998.pt"
+                ]
+            },
+            {
+                "steps": 78999996,
+                "file_path": "results\\hb_05\\FightAgent\\FightAgent-78999996.onnx",
+                "reward": -15.635129774877887,
+                "creation_time": 1693623269.0972993,
+                "auxillary_file_paths": [
+                    "results\\hb_05\\FightAgent\\FightAgent-78999996.pt"
+                ]
+            },
+            {
+                "steps": 79499966,
+                "file_path": "results\\hb_05\\FightAgent\\FightAgent-79499966.onnx",
+                "reward": -18.840909041238554,
+                "creation_time": 1693623867.159254,
+                "auxillary_file_paths": [
+                    "results\\hb_05\\FightAgent\\FightAgent-79499966.pt"
+                ]
+            },
+            {
+                "steps": 79703036,
+                "file_path": "results\\hb_05\\FightAgent\\FightAgent-79703036.onnx",
+                "reward": -9.131578991287633,
+                "creation_time": 1693624110.975361,
+                "auxillary_file_paths": [
+                    "results\\hb_05\\FightAgent\\FightAgent-79703036.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 79703036,
+            "file_path": "results\\hb_05\\FightAgent.onnx",
+            "reward": -9.131578991287633,
+            "creation_time": 1693624110.975361,
+            "auxillary_file_paths": [
+                "results\\hb_05\\FightAgent\\FightAgent-79703036.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "0.30.0",
+        "torch_version": "2.0.1+cpu"
+    }
+}

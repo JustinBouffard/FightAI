@@ -1,0 +1,66 @@
+{
+    "FightAgent": {
+        "checkpoints": [
+            {
+                "steps": 30499994,
+                "file_path": "results\\SelfPlay\\FightAgent\\FightAgent-30499994.onnx",
+                "reward": -35.53526575265875,
+                "creation_time": 1693747485.7170682,
+                "auxillary_file_paths": [
+                    "results\\SelfPlay\\FightAgent\\FightAgent-30499994.pt"
+                ]
+            },
+            {
+                "steps": 30999988,
+                "file_path": "results\\SelfPlay\\FightAgent\\FightAgent-30999988.onnx",
+                "reward": -43.43043484895126,
+                "creation_time": 1693748249.8861997,
+                "auxillary_file_paths": [
+                    "results\\SelfPlay\\FightAgent\\FightAgent-30999988.pt"
+                ]
+            },
+            {
+                "steps": 31499983,
+                "file_path": "results\\SelfPlay\\FightAgent\\FightAgent-31499983.onnx",
+                "reward": -29.80335567781589,
+                "creation_time": 1693749006.2249718,
+                "auxillary_file_paths": [
+                    "results\\SelfPlay\\FightAgent\\FightAgent-31499983.pt"
+                ]
+            },
+            {
+                "steps": 31999983,
+                "file_path": "results\\SelfPlay\\FightAgent\\FightAgent-31999983.onnx",
+                "reward": -37.00140842473563,
+                "creation_time": 1693749832.3005574,
+                "auxillary_file_paths": [
+                    "results\\SelfPlay\\FightAgent\\FightAgent-31999983.pt"
+                ]
+            },
+            {
+                "steps": 32053004,
+                "file_path": "results\\SelfPlay\\FightAgent\\FightAgent-32053004.onnx",
+                "reward": -45.522727467119694,
+                "creation_time": 1693749941.0118752,
+                "auxillary_file_paths": [
+                    "results\\SelfPlay\\FightAgent\\FightAgent-32053004.pt"
+                ]
+            }
+        ],
+        "elo": 745.6189391682308,
+        "final_checkpoint": {
+            "steps": 32053004,
+            "file_path": "results\\SelfPlay\\FightAgent.onnx",
+            "reward": -45.522727467119694,
+            "creation_time": 1693749941.0118752,
+            "auxillary_file_paths": [
+                "results\\SelfPlay\\FightAgent\\FightAgent-32053004.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "0.30.0",
+        "torch_version": "2.0.1+cpu"
+    }
+}

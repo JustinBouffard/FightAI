@@ -1,0 +1,65 @@
+{
+    "FightAgent": {
+        "checkpoints": [
+            {
+                "steps": 4499912,
+                "file_path": "results\\hb_02\\FightAgent\\FightAgent-4499912.onnx",
+                "reward": -38.29401705713354,
+                "creation_time": 1693260253.8268826,
+                "auxillary_file_paths": [
+                    "results\\hb_02\\FightAgent\\FightAgent-4499912.pt"
+                ]
+            },
+            {
+                "steps": 4999985,
+                "file_path": "results\\hb_02\\FightAgent\\FightAgent-4999985.onnx",
+                "reward": -27.453103453537512,
+                "creation_time": 1693260799.4143794,
+                "auxillary_file_paths": [
+                    "results\\hb_02\\FightAgent\\FightAgent-4999985.pt"
+                ]
+            },
+            {
+                "steps": 5499927,
+                "file_path": "results\\hb_02\\FightAgent\\FightAgent-5499927.onnx",
+                "reward": -29.282608700835187,
+                "creation_time": 1693261359.797224,
+                "auxillary_file_paths": [
+                    "results\\hb_02\\FightAgent\\FightAgent-5499927.pt"
+                ]
+            },
+            {
+                "steps": 5999990,
+                "file_path": "results\\hb_02\\FightAgent\\FightAgent-5999990.onnx",
+                "reward": -28.390285685403008,
+                "creation_time": 1693261986.2641902,
+                "auxillary_file_paths": [
+                    "results\\hb_02\\FightAgent\\FightAgent-5999990.pt"
+                ]
+            },
+            {
+                "steps": 6216212,
+                "file_path": "results\\hb_02\\FightAgent\\FightAgent-6216212.onnx",
+                "reward": null,
+                "creation_time": 1693262225.54961,
+                "auxillary_file_paths": [
+                    "results\\hb_02\\FightAgent\\FightAgent-6216212.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 6216212,
+            "file_path": "results\\hb_02\\FightAgent.onnx",
+            "reward": null,
+            "creation_time": 1693262225.54961,
+            "auxillary_file_paths": [
+                "results\\hb_02\\FightAgent\\FightAgent-6216212.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "0.30.0",
+        "torch_version": "2.0.1+cpu"
+    }
+}
