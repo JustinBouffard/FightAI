@@ -2,59 +2,59 @@
     "FightAgent": {
         "checkpoints": [
             {
-                "steps": 30499994,
-                "file_path": "results\\SelfPlay\\FightAgent\\FightAgent-30499994.onnx",
-                "reward": -35.53526575265875,
-                "creation_time": 1693747485.7170682,
+                "steps": 37499913,
+                "file_path": "results\\SelfPlay\\FightAgent\\FightAgent-37499913.onnx",
+                "reward": -115.90937508270144,
+                "creation_time": 1693758445.8951945,
                 "auxillary_file_paths": [
-                    "results\\SelfPlay\\FightAgent\\FightAgent-30499994.pt"
+                    "results\\SelfPlay\\FightAgent\\FightAgent-37499913.pt"
                 ]
             },
             {
-                "steps": 30999988,
-                "file_path": "results\\SelfPlay\\FightAgent\\FightAgent-30999988.onnx",
-                "reward": -43.43043484895126,
-                "creation_time": 1693748249.8861997,
+                "steps": 37999967,
+                "file_path": "results\\SelfPlay\\FightAgent\\FightAgent-37999967.onnx",
+                "reward": -86.1488366575204,
+                "creation_time": 1693759206.2312007,
                 "auxillary_file_paths": [
-                    "results\\SelfPlay\\FightAgent\\FightAgent-30999988.pt"
+                    "results\\SelfPlay\\FightAgent\\FightAgent-37999967.pt"
                 ]
             },
             {
-                "steps": 31499983,
-                "file_path": "results\\SelfPlay\\FightAgent\\FightAgent-31499983.onnx",
-                "reward": -29.80335567781589,
-                "creation_time": 1693749006.2249718,
+                "steps": 38499956,
+                "file_path": "results\\SelfPlay\\FightAgent\\FightAgent-38499956.onnx",
+                "reward": -89.74545503491386,
+                "creation_time": 1693759966.2530572,
                 "auxillary_file_paths": [
-                    "results\\SelfPlay\\FightAgent\\FightAgent-31499983.pt"
+                    "results\\SelfPlay\\FightAgent\\FightAgent-38499956.pt"
                 ]
             },
             {
-                "steps": 31999983,
-                "file_path": "results\\SelfPlay\\FightAgent\\FightAgent-31999983.onnx",
-                "reward": -37.00140842473563,
-                "creation_time": 1693749832.3005574,
+                "steps": 38999976,
+                "file_path": "results\\SelfPlay\\FightAgent\\FightAgent-38999976.onnx",
+                "reward": -150.9736840646518,
+                "creation_time": 1693760739.0504744,
                 "auxillary_file_paths": [
-                    "results\\SelfPlay\\FightAgent\\FightAgent-31999983.pt"
+                    "results\\SelfPlay\\FightAgent\\FightAgent-38999976.pt"
                 ]
             },
             {
-                "steps": 32053004,
-                "file_path": "results\\SelfPlay\\FightAgent\\FightAgent-32053004.onnx",
-                "reward": -45.522727467119694,
-                "creation_time": 1693749941.0118752,
+                "steps": 39133061,
+                "file_path": "results\\SelfPlay\\FightAgent\\FightAgent-39133061.onnx",
+                "reward": -92.69290709706908,
+                "creation_time": 1693760952.0050976,
                 "auxillary_file_paths": [
-                    "results\\SelfPlay\\FightAgent\\FightAgent-32053004.pt"
+                    "results\\SelfPlay\\FightAgent\\FightAgent-39133061.pt"
                 ]
             }
         ],
-        "elo": 745.6189391682308,
+        "elo": 519.9387358424666,
         "final_checkpoint": {
-            "steps": 32053004,
+            "steps": 39133061,
             "file_path": "results\\SelfPlay\\FightAgent.onnx",
-            "reward": -45.522727467119694,
-            "creation_time": 1693749941.0118752,
+            "reward": -92.69290709706908,
+            "creation_time": 1693760952.0050976,
             "auxillary_file_paths": [
-                "results\\SelfPlay\\FightAgent\\FightAgent-32053004.pt"
+                "results\\SelfPlay\\FightAgent\\FightAgent-39133061.pt"
             ]
         }
     },
