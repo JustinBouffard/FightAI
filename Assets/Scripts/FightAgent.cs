@@ -137,7 +137,7 @@ public class FightAgent : Agent
             canMove = true;
         }
 
-        if (isAttacking && !attackArea.hasKilled)    AddReward(-0.4f);
+        if (isAttacking && !attackArea.hasKilled)    AddReward(-0.2f);
 
         AddReward(-0.1f);
     }

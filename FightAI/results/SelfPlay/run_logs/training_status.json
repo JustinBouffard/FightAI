@@ -2,65 +2,65 @@
     "FightAgent": {
         "checkpoints": [
             {
-                "steps": 37499913,
-                "file_path": "results\\SelfPlay\\FightAgent\\FightAgent-37499913.onnx",
-                "reward": -115.90937508270144,
-                "creation_time": 1693758445.8951945,
+                "steps": 2999960,
+                "file_path": "results/SelfPlay/FightAgent/FightAgent-2999960.onnx",
+                "reward": -95.969644288222,
+                "creation_time": 1693773729.3623838,
                 "auxillary_file_paths": [
-                    "results\\SelfPlay\\FightAgent\\FightAgent-37499913.pt"
+                    "results/SelfPlay/FightAgent/FightAgent-2999960.pt"
                 ]
             },
             {
-                "steps": 37999967,
-                "file_path": "results\\SelfPlay\\FightAgent\\FightAgent-37999967.onnx",
-                "reward": -86.1488366575204,
-                "creation_time": 1693759206.2312007,
+                "steps": 3499932,
+                "file_path": "results/SelfPlay/FightAgent/FightAgent-3499932.onnx",
+                "reward": -121.66052637288445,
+                "creation_time": 1693774682.037138,
                 "auxillary_file_paths": [
-                    "results\\SelfPlay\\FightAgent\\FightAgent-37999967.pt"
+                    "results/SelfPlay/FightAgent/FightAgent-3499932.pt"
                 ]
             },
             {
-                "steps": 38499956,
-                "file_path": "results\\SelfPlay\\FightAgent\\FightAgent-38499956.onnx",
-                "reward": -89.74545503491386,
-                "creation_time": 1693759966.2530572,
+                "steps": 3999970,
+                "file_path": "results/SelfPlay/FightAgent/FightAgent-3999970.onnx",
+                "reward": -85.86048503700763,
+                "creation_time": 1693775617.866281,
                 "auxillary_file_paths": [
-                    "results\\SelfPlay\\FightAgent\\FightAgent-38499956.pt"
+                    "results/SelfPlay/FightAgent/FightAgent-3999970.pt"
                 ]
             },
             {
-                "steps": 38999976,
-                "file_path": "results\\SelfPlay\\FightAgent\\FightAgent-38999976.onnx",
-                "reward": -150.9736840646518,
-                "creation_time": 1693760739.0504744,
+                "steps": 4499958,
+                "file_path": "results/SelfPlay/FightAgent/FightAgent-4499958.onnx",
+                "reward": -96.29259357592206,
+                "creation_time": 1693776552.73317,
                 "auxillary_file_paths": [
-                    "results\\SelfPlay\\FightAgent\\FightAgent-38999976.pt"
+                    "results/SelfPlay/FightAgent/FightAgent-4499958.pt"
                 ]
             },
             {
-                "steps": 39133061,
-                "file_path": "results\\SelfPlay\\FightAgent\\FightAgent-39133061.onnx",
-                "reward": -92.69290709706908,
-                "creation_time": 1693760952.0050976,
+                "steps": 4830785,
+                "file_path": "results/SelfPlay/FightAgent/FightAgent-4830785.onnx",
+                "reward": -114.5833350320657,
+                "creation_time": 1693777259.500871,
                 "auxillary_file_paths": [
-                    "results\\SelfPlay\\FightAgent\\FightAgent-39133061.pt"
+                    "results/SelfPlay/FightAgent/FightAgent-4830785.pt"
                 ]
             }
         ],
-        "elo": 519.9387358424666,
+        "elo": 1107.8664171053479,
         "final_checkpoint": {
-            "steps": 39133061,
-            "file_path": "results\\SelfPlay\\FightAgent.onnx",
-            "reward": -92.69290709706908,
-            "creation_time": 1693760952.0050976,
+            "steps": 4830785,
+            "file_path": "results/SelfPlay/FightAgent.onnx",
+            "reward": -114.5833350320657,
+            "creation_time": 1693777259.500871,
             "auxillary_file_paths": [
-                "results\\SelfPlay\\FightAgent\\FightAgent-39133061.pt"
+                "results/SelfPlay/FightAgent/FightAgent-4830785.pt"
             ]
         }
     },
     "metadata": {
         "stats_format_version": "0.3.0",
-        "mlagents_version": "0.30.0",
-        "torch_version": "2.0.1+cpu"
+        "mlagents_version": "0.28.0",
+        "torch_version": "1.8.1"
     }
 }
