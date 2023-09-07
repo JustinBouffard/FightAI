@@ -9,11 +9,12 @@ using Unity.VisualScripting;
 using UnityEditor.Animations;
 using System.Runtime.CompilerServices;
 
-/// <summary>
-/// TODO : Add the rewards, when killed, when hit, when going out of bounds
-/// </summary>
 public class FightAgent : Agent
 {
+    /// <summary>
+    /// TODO : Stamina function and machine vision
+    /// </summary>
+
     [SerializeField] float movementSpeed = 5f;
     [SerializeField] float yawRotationSpeed = 3f;
     [SerializeField] float zMaxValueSpawning;
@@ -137,7 +138,7 @@ public class FightAgent : Agent
             canMove = true;
         }
 
-        if (isAttacking && !attackArea.hasKilled)    AddReward(-0.2f);
+        if (isAttacking && !attackArea.hasKilled)    AddReward(-0.5f);
 
         AddReward(-0.1f);
     }
