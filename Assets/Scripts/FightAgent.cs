@@ -12,7 +12,22 @@ using System.Runtime.CompilerServices;
 public class FightAgent : Agent
 {
     /// <summary>
-    /// TODO : Stamina function and machine vision
+    /// TODO : Stamina function (not forget on collect obs) and machine vision
+    /// 
+    /// Stamina : 
+    /// 
+    /// Max actions : 
+    /// Attacking : 2 times
+    /// Blocking : 2 seconds
+    /// 
+    /// Max stamina = 1.00f
+    /// 
+    /// Attacking = 0.50f stamina
+    /// Blocking = 0.01f every fixed update
+    /// 
+    /// Gaining rate (note : if stamina == 0, wait 1 sec. and add a negative reward) : 1.5 sec. for full stamina
+    /// 
+    /// Make function to customize every parameter in engine, to change values dynamically (50 * seconds, 1 \ by the result)
     /// </summary>
 
     [SerializeField] float movementSpeed = 5f;
@@ -67,6 +82,14 @@ public class FightAgent : Agent
         attackArea.hasKilled = false;
     }
 
+    /// <summary>
+    /// Called every 0.02 seconds (50 times per seconds)
+    /// </summary>
+    private void FixedUpdate()
+    {
+ 
+    }
+
     public override void OnEpisodeBegin()
     {
         // Random spawning
@@ -80,8 +103,8 @@ public class FightAgent : Agent
 
         // Observe the local position and rotation of the red agents
 
-        sensor.AddObservation(transform.localRotation.normalized);  // 4 observations
-        sensor.AddObservation(transform.localPosition.normalized);  // 3 observations
+        sensor.AddObservation(transform.localRotation.normalized);
+        sensor.AddObservation(transform.localPosition.normalized);
         sensor.AddObservation(isAttacking);
         sensor.AddObservation(isBlocking);
     }
@@ -138,8 +161,7 @@ public class FightAgent : Agent
             canMove = true;
         }
 
-        if (isAttacking && !attackArea.hasKilled)    AddReward(-0.5f);
-
+        // Check to change for greater value for motivating the AI to kill more rapidly
         AddReward(-0.1f);
     }
 
@@ -186,7 +208,7 @@ public class FightAgent : Agent
 
         if (collision.gameObject.CompareTag("Bound"))
         {
-            //Get the ennemy and end episode too
+
             AddReward(-1f);
         }
         else if (collision.gameObject.CompareTag("Bottom")) EndEpisode();
