@@ -30,27 +30,55 @@ public class FightAgent : Agent
     /// Make function to customize every parameter in engine, to change values dynamically (50 * seconds, 1 \ by the result)
     /// </summary>
 
+
+    //VARIABLES
+
+    // Movement
+    [Header("Movement")]
     [SerializeField] float movementSpeed = 5f;
     [SerializeField] float yawRotationSpeed = 3f;
+    [Space(15)]
+
+    // Random spawning
+    [Header("Random Spawning")]
     [SerializeField] float zMaxValueSpawning;
     [SerializeField] float zMinValueSpawning;
     [SerializeField] float xMaxValueSpawning;
     [SerializeField] float xMinValueSpawning;
+    [Space(15)]
 
+    // Tags
+    [Header("Tags")]
     [SerializeField] private string ennemySwordHitTag;
     [SerializeField] private string allySwordHitTag;
+    [Space(15)]
 
+    // Scripts variables
+    [Header("Scripts Variables")]
     Animator animator;
     AttackArea attackArea;
+    [Space(15)]
 
+    // Combat conditions
+    [Header("Combat Conditions")]
     [HideInInspector] public bool isAttacking;
-    bool canAttack = true;
     [HideInInspector] public bool isBlocking;
+    bool canAttack = true;
     bool canBlock = true;
     bool canMove = true;
     bool canRotate = true;
+    [Space(15)]
 
-    private float smoothYawRotation = 0f;
+    // Rotation
+    private float smoothYawRotation = 1f;
+
+    // Stamina
+    [Header("Stamina")]
+    float stamina = 1.0f;
+    float staminaCost;
+    [SerializeField] float StaminaGainingRate;
+    [SerializeField] int MaxNumberOfAttacks = 2;
+    [SerializeField] int MaxSecondsOfBlock;
 
     private void Awake()
     {
@@ -59,6 +87,11 @@ public class FightAgent : Agent
         attackArea = GameObject.Find("AttackArea").GetComponent<AttackArea>();
 
         attackArea.gameObject.active = false;
+    }
+
+    private void Start()
+    {
+        staminaCost = stamina / MaxNumberOfAttacks;
     }
 
     private void Update()
@@ -87,7 +120,8 @@ public class FightAgent : Agent
     /// </summary>
     private void FixedUpdate()
     {
- 
+        //AttackStamina(MaxNumberOfAttacks);
+        Debug.Log(stamina);
     }
 
     public override void OnEpisodeBegin()
@@ -144,14 +178,14 @@ public class FightAgent : Agent
         if(canRotate)   transform.rotation = Quaternion.Euler(0f, yaw, 0f);
 
         //Attacking
-        if (attack && canAttack)
+        if (attack && canAttack && stamina != 0f)
         {
             Attack();
             StartCoroutine(AttackDelay());
         }
 
         //Blocking
-        if (block && canBlock)
+        if (block && canBlock && stamina != 0f)
         {
             Block();
         }
@@ -214,9 +248,12 @@ public class FightAgent : Agent
         else if (collision.gameObject.CompareTag("Bottom")) EndEpisode();
     }
 
+    /// <summary>
+    /// Called when the agent attacks
+    /// </summary>
     private void Attack()
     {
-        //Animating
+        //Conditions
         canAttack = false;
         isBlocking = false;
         canBlock = false;
@@ -224,9 +261,17 @@ public class FightAgent : Agent
         isAttacking = true;
         canRotate = false;
         attackArea.gameObject.active = true;
+
+        // Animating
         animator.Play(name = "Sword And Shield Slash");
+
+        //Stamina
+        stamina = AttackStamina(MaxNumberOfAttacks, staminaCost);
     }
 
+    /// <summary>
+    /// Called when the agent is blocking
+    /// </summary>
     private void Block()
     {
         animator.Play(name = "Block");
@@ -234,6 +279,10 @@ public class FightAgent : Agent
         canMove = false;
     }
 
+    /// <summary>
+    /// Returns every conditions for the attack to be finished after the delay
+    /// </summary>
+    /// <returns></returns>
     IEnumerator AttackDelay()
     {
         yield return new WaitForSeconds(0.7f);
@@ -245,6 +294,10 @@ public class FightAgent : Agent
         yield return canBlock = true;
     }
 
+    /// <summary>
+    /// Called every update, if the agent killed it ends the episode and adds +1 reward
+    /// </summary>
+    /// <param name="hasKilled">True if the agent killed</param>
     private void HasKilled(bool hasKilled)
     {
         if(hasKilled)
@@ -255,11 +308,29 @@ public class FightAgent : Agent
         }
     }
 
+    /// <summary>
+    /// Is executed when the agent dies, ends episode and adds -1 reward 
+    /// </summary>
     private void IsDead()
     {
         AddReward(-1f);
         
         EndEpisode();
+    }
+
+    /// <summary>
+    /// Returns the stamina after an attack
+    /// </summary>
+    /// <returns></returns>
+    private float AttackStamina(float attackStamina, float staminaCost)
+    {
+        attackStamina = stamina;
+
+        if (attackStamina != 0f)
+        {
+            return attackStamina -= staminaCost;
+        }
+        else return 0f;
     }
 }
 

@@ -6,6 +6,9 @@ public class AttackArea : MonoBehaviour
 {
     [SerializeField] private string ennemyTag;
 
+    /// <summary>
+    /// True when the agent killed an ennemy
+    /// </summary>
     [HideInInspector] public bool hasKilled = false;
 
 
