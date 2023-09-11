@@ -27,7 +27,7 @@ public class FightAgent : Agent
     /// 
     /// Gaining rate (note : if stamina == 0, wait 1 sec. and add a negative reward) : 1.5 sec. for full stamina
     /// 
-    /// Make function to customize every parameter in engine, to change values dynamically (50 * seconds, 1 \ by the result)
+    /// Make function to customize every parameter in engine, to change values dynamically (50 * seconds, stamina \ by the result)
     /// </summary>
 
 
@@ -74,11 +74,12 @@ public class FightAgent : Agent
 
     // Stamina
     [Header("Stamina")]
-    float stamina = 1.0f;
-    float staminaCost;
+    [SerializeField] float stamina;
     [SerializeField] float StaminaGainingRate;
-    [SerializeField] int MaxNumberOfAttacks = 2;
+    [SerializeField] int MaxNumberOfAttacks;
     [SerializeField] int MaxSecondsOfBlock;
+    float attackStaminaCost;
+    float blockStaminaCost;
 
     private void Awake()
     {
@@ -91,7 +92,9 @@ public class FightAgent : Agent
 
     private void Start()
     {
-        staminaCost = stamina / MaxNumberOfAttacks;
+        attackStaminaCost = stamina / MaxNumberOfAttacks;
+        // Times 50 because fixed update executes 50 times a second
+        blockStaminaCost = stamina / (50 * MaxSecondsOfBlock);
     }
 
     private void Update()
@@ -120,7 +123,11 @@ public class FightAgent : Agent
     /// </summary>
     private void FixedUpdate()
     {
-        //AttackStamina(MaxNumberOfAttacks);
+        if (isBlocking && blockStaminaCost <= stamina)
+        {
+            stamina = Stamina(stamina, blockStaminaCost);
+        }
+
         Debug.Log(stamina);
     }
 
@@ -178,22 +185,20 @@ public class FightAgent : Agent
         if(canRotate)   transform.rotation = Quaternion.Euler(0f, yaw, 0f);
 
         //Attacking
-        if (attack && canAttack && stamina != 0f)
+        if (attack && canAttack && attackStaminaCost <= stamina)
         {
             Attack();
             StartCoroutine(AttackDelay());
         }
 
         //Blocking
-        if (block && canBlock && stamina != 0f)
+        if (blockStaminaCost <= stamina)
         {
-            Block();
+            if (block && canBlock) Block();
+            else if (!block && !isAttacking) StopBlocking();
         }
-        else if(!block && !isAttacking)
-        {
-            isBlocking = false;
-            canMove = true;
-        }
+        else StopBlocking();
+
 
         // Check to change for greater value for motivating the AI to kill more rapidly
         AddReward(-0.1f);
@@ -266,17 +271,7 @@ public class FightAgent : Agent
         animator.Play(name = "Sword And Shield Slash");
 
         //Stamina
-        stamina = AttackStamina(MaxNumberOfAttacks, staminaCost);
-    }
-
-    /// <summary>
-    /// Called when the agent is blocking
-    /// </summary>
-    private void Block()
-    {
-        animator.Play(name = "Block");
-        isBlocking = true;
-        canMove = false;
+        stamina = Stamina(stamina, attackStaminaCost);
     }
 
     /// <summary>
@@ -292,6 +287,25 @@ public class FightAgent : Agent
         yield return canMove = true;
         yield return canRotate = true;
         yield return canBlock = true;
+    }
+
+    /// <summary>
+    /// Called when the agent is blocking
+    /// </summary>
+    private void Block()
+    {
+        animator.Play(name = "Block");
+        isBlocking = true;
+        canMove = false;
+    }
+
+    /// <summary>
+    /// Called when the agent stops blocking or is forced beacause of stamina value
+    /// </summary>
+    private void StopBlocking()
+    {
+        isBlocking = false;
+        canMove = true;
     }
 
     /// <summary>
@@ -319,18 +333,12 @@ public class FightAgent : Agent
     }
 
     /// <summary>
-    /// Returns the stamina after an attack
+    /// Returns the correct amount of stamina after an action
     /// </summary>
     /// <returns></returns>
-    private float AttackStamina(float attackStamina, float staminaCost)
-    {
-        attackStamina = stamina;
-
-        if (attackStamina != 0f)
-        {
-            return attackStamina -= staminaCost;
-        }
-        else return 0f;
+    private float Stamina(float functionStamina, float staminaCost)
+    {    
+        return functionStamina -= staminaCost;
     }
 }
 
