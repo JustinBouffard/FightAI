@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Unity.VisualScripting;
 using UnityEditor.Animations;
 using System.Runtime.CompilerServices;
+using System.Linq;
 
 public class FightAgent : Agent
 {
@@ -75,11 +76,17 @@ public class FightAgent : Agent
     // Stamina
     [Header("Stamina")]
     [SerializeField] float stamina;
-    [SerializeField] float StaminaGainingRate;
+    [SerializeField] float MaxSecondsGain;
+    [SerializeField] float WaitSecondsStaminaGain;
     [SerializeField] int MaxNumberOfAttacks;
     [SerializeField] int MaxSecondsOfBlock;
+    float initialStamina;
+    float gainingStamina;
+    float gainingStaminaDelay;
+    bool canGainStamina = false;
     float attackStaminaCost;
     float blockStaminaCost;
+    float staminaDelay;
 
     private void Awake()
     {
@@ -93,8 +100,16 @@ public class FightAgent : Agent
     private void Start()
     {
         attackStaminaCost = stamina / MaxNumberOfAttacks;
+
         // Times 50 because fixed update executes 50 times a second
         blockStaminaCost = stamina / (50 * MaxSecondsOfBlock);
+
+        gainingStamina = stamina / (50 * MaxSecondsGain);
+
+        gainingStaminaDelay = stamina / (50 * WaitSecondsStaminaGain);
+
+        // For the gaining stamina (stamina can't be more than initial stamina)
+        initialStamina = stamina;
     }
 
     private void Update()
@@ -123,11 +138,28 @@ public class FightAgent : Agent
     /// </summary>
     private void FixedUpdate()
     {
-        if (isBlocking && blockStaminaCost <= stamina)
+        // Stamina cost while blocking
+        if (isBlocking && blockStaminaCost <= stamina)  stamina = Stamina(stamina, blockStaminaCost);
+
+        if (!isBlocking && !isAttacking && staminaDelay <= WaitSecondsStaminaGain && !canGainStamina)
         {
-            stamina = Stamina(stamina, blockStaminaCost);
+            staminaDelay = StaminaGain(staminaDelay, gainingStaminaDelay);
+        }
+        else if (staminaDelay >= WaitSecondsStaminaGain)
+        {
+            canGainStamina = true;
+            staminaDelay = 0f;
         }
 
+        if (isAttacking || isBlocking) canGainStamina = false;
+
+        if (canGainStamina && stamina <= initialStamina)
+        {
+            stamina = StaminaGain(stamina, gainingStamina);
+        }
+        else canGainStamina = false;
+
+        Debug.Log(staminaDelay);
         Debug.Log(stamina);
     }
 
@@ -339,6 +371,17 @@ public class FightAgent : Agent
     private float Stamina(float functionStamina, float staminaCost)
     {    
         return functionStamina -= staminaCost;
+    }
+
+    /// <summary>
+    /// Returns the correct amount of stamina while idle
+    /// </summary>
+    /// <param name="functionStamina"></param>
+    /// <param name="staminaCost"></param>
+    /// <returns></returns>
+    private float StaminaGain(float functionStamina, float gainingStamina)
+    {
+        return functionStamina += gainingStamina;
     }
 }
 

@@ -257,6 +257,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8978659542374760704, guid: 45c135381d069a442886905c6873727a, type: 3}
       propertyPath: stamina
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8978659542374760704, guid: 45c135381d069a442886905c6873727a, type: 3}
+      propertyPath: MaxSecondsGain
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8978659542374760704, guid: 45c135381d069a442886905c6873727a, type: 3}
@@ -266,6 +270,10 @@ PrefabInstance:
     - target: {fileID: 8978659542374760704, guid: 45c135381d069a442886905c6873727a, type: 3}
       propertyPath: MaxNumberOfAttacks
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8978659542374760704, guid: 45c135381d069a442886905c6873727a, type: 3}
+      propertyPath: WaitSecondsStaminaGain
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
