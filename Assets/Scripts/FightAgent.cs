@@ -141,6 +141,7 @@ public class FightAgent : Agent
         // Stamina cost while blocking
         if (isBlocking && blockStaminaCost <= stamina)  stamina = Stamina(stamina, blockStaminaCost);
 
+        // TODO : Make function or move it to a different script
         if (!isBlocking && !isAttacking && staminaDelay <= WaitSecondsStaminaGain && !canGainStamina)
         {
             staminaDelay = StaminaGain(staminaDelay, gainingStaminaDelay);
