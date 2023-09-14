@@ -6,18 +6,20 @@ public class Stamina : MonoBehaviour
 {
     // Stamina
     [Header("Stamina")]
-    [SerializeField] float stamina;
+    [SerializeField] public float staminaValue;
     [SerializeField] float MaxSecondsGain;
     [SerializeField] float WaitSecondsStaminaGain;
     [SerializeField] int MaxNumberOfAttacks;
     [SerializeField] int MaxSecondsOfBlock;
+
     float initialStamina;
     float gainingStamina;
     float gainingStaminaDelay;
     bool canGainStamina = false;
-    float attackStaminaCost;
-    float blockStaminaCost;
     float staminaDelay;
+
+    [HideInInspector]   public float attackStaminaCost;
+    [HideInInspector]   public float blockStaminaCost;
 
     FightAgent fightAgent;
 
@@ -27,22 +29,37 @@ public class Stamina : MonoBehaviour
         fightAgent = GetComponent<FightAgent>();
     }
 
+    private void Start()
+    {
+        attackStaminaCost = staminaValue / MaxNumberOfAttacks;
+
+        // Times 50 because fixed update executes 50 times a second
+        blockStaminaCost = staminaValue / (50 * MaxSecondsOfBlock);
+
+        gainingStamina = staminaValue / (50 * MaxSecondsGain);
+
+        gainingStaminaDelay = staminaValue / (50 * WaitSecondsStaminaGain);
+
+        // For the gaining stamina (stamina can't be more than initial stamina)
+        initialStamina = staminaValue;
+    }
+
     // Update is called once per frame
     void FixedUpdate()
     {
         // Stamina cost while blocking
-        if (fightAgent.isBlocking && blockStaminaCost <= stamina) stamina = StaminaDeduction(stamina, blockStaminaCost);
+        if (fightAgent.isBlocking && blockStaminaCost <= staminaValue) staminaValue = StaminaDeduction(staminaValue, blockStaminaCost);
 
         StaminaReplenish();
 
-        Debug.Log(staminaDelay);
+        Debug.Log(staminaValue);
     }
 
     /// <summary>
     /// Returns the correct amount of stamina after an action
     /// </summary>
     /// <returns></returns>
-    private float StaminaDeduction(float functionStamina, float staminaCost)
+    public float StaminaDeduction(float functionStamina, float staminaCost)
     {
         return functionStamina -= staminaCost;
     }
@@ -53,7 +70,7 @@ public class Stamina : MonoBehaviour
     /// <param name="functionStamina"></param>
     /// <param name="staminaCost"></param>
     /// <returns></returns>
-    private float StaminaGain(float functionStamina, float gainingStamina)
+    public float StaminaGain(float functionStamina, float gainingStamina)
     {
         return functionStamina += gainingStamina;
     }
@@ -62,7 +79,7 @@ public class Stamina : MonoBehaviour
     /// <summary>
     /// Replenishes the stamina after action with a delay
     /// </summary>
-    private void StaminaReplenish()
+    public void StaminaReplenish()
     {
         // TODO : Make function or move it to a different script
         if (!fightAgent.isBlocking && !fightAgent.isAttacking && staminaDelay <= WaitSecondsStaminaGain && !canGainStamina)
@@ -78,9 +95,9 @@ public class Stamina : MonoBehaviour
         //Check if the actor attacks or blocks after the delay, so it can happen again
         if (fightAgent.isAttacking || fightAgent.isBlocking) canGainStamina = false;
 
-        if (canGainStamina && stamina <= initialStamina)
+        if (canGainStamina && staminaValue <= initialStamina)
         {
-            stamina = StaminaGain(stamina, gainingStamina);
+            staminaValue = StaminaGain(staminaValue, gainingStamina);
         }
         else canGainStamina = false;
     }

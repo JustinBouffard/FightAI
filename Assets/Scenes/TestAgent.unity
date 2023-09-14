@@ -257,8 +257,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8978659542374760704, guid: 45c135381d069a442886905c6873727a, type: 3}
       propertyPath: stamina
-      value: 1
-      objectReference: {fileID: 0}
+      value: 
+      objectReference: {fileID: 170824912}
     - target: {fileID: 8978659542374760704, guid: 45c135381d069a442886905c6873727a, type: 3}
       propertyPath: MaxSecondsGain
       value: 3
@@ -275,11 +275,39 @@ PrefabInstance:
       propertyPath: WaitSecondsStaminaGain
       value: 2
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 6520735361939453774, guid: 45c135381d069a442886905c6873727a, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4838992476533515196, guid: 45c135381d069a442886905c6873727a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 170824912}
   m_SourcePrefab: {fileID: 100100000, guid: 45c135381d069a442886905c6873727a, type: 3}
+--- !u!1 &170824904 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4838992476533515196, guid: 45c135381d069a442886905c6873727a, type: 3}
+  m_PrefabInstance: {fileID: 97267587}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &170824912
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 170824904}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be5ecc961d81e4b7bb697e90ef420dd8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  staminaValue: 1
+  MaxSecondsGain: 3
+  WaitSecondsStaminaGain: 2
+  MaxNumberOfAttacks: 3
+  MaxSecondsOfBlock: 3
+  attackStaminaCost: 0
+  blockStaminaCost: 0
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0

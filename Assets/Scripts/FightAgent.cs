@@ -70,10 +70,13 @@ public class FightAgent : Agent
     bool canRotate = true;
     [Space(15)]
 
+    //Stamina
+    [SerializeField] Stamina stamina;
+
     // Rotation
     private float smoothYawRotation = 1f;
 
-    // Stamina
+    /*// Stamina
     [Header("Stamina")]
     [SerializeField] float stamina;
     [SerializeField] float MaxSecondsGain;
@@ -86,7 +89,7 @@ public class FightAgent : Agent
     bool canGainStamina = false;
     float attackStaminaCost;
     float blockStaminaCost;
-    float staminaDelay;
+    float staminaDelay;*/
 
     private void Awake()
     {
@@ -95,21 +98,8 @@ public class FightAgent : Agent
         attackArea = GameObject.Find("AttackArea").GetComponent<AttackArea>();
 
         attackArea.gameObject.active = false;
-    }
 
-    private void Start()
-    {
-        attackStaminaCost = stamina / MaxNumberOfAttacks;
-
-        // Times 50 because fixed update executes 50 times a second
-        blockStaminaCost = stamina / (50 * MaxSecondsOfBlock);
-
-        gainingStamina = stamina / (50 * MaxSecondsGain);
-
-        gainingStaminaDelay = stamina / (50 * WaitSecondsStaminaGain);
-
-        // For the gaining stamina (stamina can't be more than initial stamina)
-        initialStamina = stamina;
+        //stamina = GetComponent<Stamina>();
     }
 
     private void Update()
@@ -131,19 +121,6 @@ public class FightAgent : Agent
         HasKilled(attackArea.hasKilled);
 
         attackArea.hasKilled = false;
-    }
-
-    /// <summary>
-    /// Called every 0.02 seconds (50 times per seconds)
-    /// </summary>
-    private void FixedUpdate()
-    {
-        // Stamina cost while blocking
-        if (isBlocking && blockStaminaCost <= stamina)  stamina = Stamina(stamina, blockStaminaCost);
-
-        StaminaReplenish();
-
-        Debug.Log(staminaDelay);
     }
 
     public override void OnEpisodeBegin()
@@ -200,14 +177,14 @@ public class FightAgent : Agent
         if(canRotate)   transform.rotation = Quaternion.Euler(0f, yaw, 0f);
 
         //Attacking
-        if (attack && canAttack && attackStaminaCost <= stamina)
+        if (attack && canAttack && stamina.attackStaminaCost <= stamina.staminaValue)
         {
             Attack();
             StartCoroutine(AttackDelay());
         }
 
         //Blocking
-        if (blockStaminaCost <= stamina)
+        if (stamina.blockStaminaCost <= stamina.staminaValue)
         {
             if (block && canBlock) Block();
             else if (!block && !isAttacking) StopBlocking();
@@ -286,7 +263,7 @@ public class FightAgent : Agent
         animator.Play(name = "Sword And Shield Slash");
 
         //Stamina
-        stamina = Stamina(stamina, attackStaminaCost);
+        stamina.staminaValue = stamina.StaminaDeduction(stamina.staminaValue, stamina.attackStaminaCost);
     }
 
     /// <summary>
@@ -351,7 +328,7 @@ public class FightAgent : Agent
     /// Returns the correct amount of stamina after an action
     /// </summary>
     /// <returns></returns>
-    private float Stamina(float functionStamina, float staminaCost)
+    /*private float Stamina(float functionStamina, float staminaCost)
     {    
         return functionStamina -= staminaCost;
     }
@@ -365,14 +342,14 @@ public class FightAgent : Agent
     private float StaminaGain(float functionStamina, float gainingStamina)
     {
         return functionStamina += gainingStamina;
-    }
+    }*/
 
     /// <summary>
     /// Replenishes the stamina after action with a delay
     /// </summary>
-    private void StaminaReplenish()
-    {
-        // TODO : Make function or move it to a different script
+    //private void StaminaReplenish()
+    //{
+       /* // TODO : Make function or move it to a different script
         if (!isBlocking && !isAttacking && staminaDelay <= WaitSecondsStaminaGain && !canGainStamina)
         {
             staminaDelay = StaminaGain(staminaDelay, gainingStaminaDelay);
@@ -391,6 +368,6 @@ public class FightAgent : Agent
             stamina = StaminaGain(stamina, gainingStamina);
         }
         else canGainStamina = false;
-    }
+    }*/
 }
 
