@@ -141,27 +141,9 @@ public class FightAgent : Agent
         // Stamina cost while blocking
         if (isBlocking && blockStaminaCost <= stamina)  stamina = Stamina(stamina, blockStaminaCost);
 
-        // TODO : Make function or move it to a different script
-        if (!isBlocking && !isAttacking && staminaDelay <= WaitSecondsStaminaGain && !canGainStamina)
-        {
-            staminaDelay = StaminaGain(staminaDelay, gainingStaminaDelay);
-        }
-        else if (staminaDelay >= WaitSecondsStaminaGain)
-        {
-            canGainStamina = true;
-            staminaDelay = 0f;
-        }
-
-        if (isAttacking || isBlocking) canGainStamina = false;
-
-        if (canGainStamina && stamina <= initialStamina)
-        {
-            stamina = StaminaGain(stamina, gainingStamina);
-        }
-        else canGainStamina = false;
+        StaminaReplenish();
 
         Debug.Log(staminaDelay);
-        Debug.Log(stamina);
     }
 
     public override void OnEpisodeBegin()
@@ -383,6 +365,32 @@ public class FightAgent : Agent
     private float StaminaGain(float functionStamina, float gainingStamina)
     {
         return functionStamina += gainingStamina;
+    }
+
+    /// <summary>
+    /// Replenishes the stamina after action with a delay
+    /// </summary>
+    private void StaminaReplenish()
+    {
+        // TODO : Make function or move it to a different script
+        if (!isBlocking && !isAttacking && staminaDelay <= WaitSecondsStaminaGain && !canGainStamina)
+        {
+            staminaDelay = StaminaGain(staminaDelay, gainingStaminaDelay);
+        }
+        else if (staminaDelay >= WaitSecondsStaminaGain)
+        {
+            canGainStamina = true;
+            staminaDelay = 0f;
+        }
+
+        //Check if the actor attacks or blocks after the delay, so it can happen again
+        if (isAttacking || isBlocking) canGainStamina = false;
+
+        if (canGainStamina && stamina <= initialStamina)
+        {
+            stamina = StaminaGain(stamina, gainingStamina);
+        }
+        else canGainStamina = false;
     }
 }
 
