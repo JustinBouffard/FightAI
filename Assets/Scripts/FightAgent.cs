@@ -12,26 +12,6 @@ using System.Linq;
 
 public class FightAgent : Agent
 {
-    /// <summary>
-    /// TODO : Stamina function (not forget on collect obs) and machine vision
-    /// 
-    /// Stamina : 
-    /// 
-    /// Max actions : 
-    /// Attacking : 2 times
-    /// Blocking : 2 seconds
-    /// 
-    /// Max stamina = 1.00f
-    /// 
-    /// Attacking = 0.50f stamina
-    /// Blocking = 0.01f every fixed update
-    /// 
-    /// Gaining rate (note : if stamina == 0, wait 1 sec. and add a negative reward) : 1.5 sec. for full stamina
-    /// 
-    /// Make function to customize every parameter in engine, to change values dynamically (50 * seconds, stamina \ by the result)
-    /// </summary>
-
-
     //VARIABLES
 
     // Movement
@@ -76,21 +56,6 @@ public class FightAgent : Agent
     // Rotation
     private float smoothYawRotation = 1f;
 
-    /*// Stamina
-    [Header("Stamina")]
-    [SerializeField] float stamina;
-    [SerializeField] float MaxSecondsGain;
-    [SerializeField] float WaitSecondsStaminaGain;
-    [SerializeField] int MaxNumberOfAttacks;
-    [SerializeField] int MaxSecondsOfBlock;
-    float initialStamina;
-    float gainingStamina;
-    float gainingStaminaDelay;
-    bool canGainStamina = false;
-    float attackStaminaCost;
-    float blockStaminaCost;
-    float staminaDelay;*/
-
     private void Awake()
     {
         animator = GetComponent<Animator>();
@@ -98,8 +63,6 @@ public class FightAgent : Agent
         attackArea = GameObject.Find("AttackArea").GetComponent<AttackArea>();
 
         attackArea.gameObject.active = false;
-
-        //stamina = GetComponent<Stamina>();
     }
 
     private void Update()
@@ -323,51 +286,5 @@ public class FightAgent : Agent
         
         EndEpisode();
     }
-
-    /// <summary>
-    /// Returns the correct amount of stamina after an action
-    /// </summary>
-    /// <returns></returns>
-    /*private float Stamina(float functionStamina, float staminaCost)
-    {    
-        return functionStamina -= staminaCost;
-    }
-
-    /// <summary>
-    /// Returns the correct amount of stamina while idle
-    /// </summary>
-    /// <param name="functionStamina"></param>
-    /// <param name="staminaCost"></param>
-    /// <returns></returns>
-    private float StaminaGain(float functionStamina, float gainingStamina)
-    {
-        return functionStamina += gainingStamina;
-    }*/
-
-    /// <summary>
-    /// Replenishes the stamina after action with a delay
-    /// </summary>
-    //private void StaminaReplenish()
-    //{
-       /* // TODO : Make function or move it to a different script
-        if (!isBlocking && !isAttacking && staminaDelay <= WaitSecondsStaminaGain && !canGainStamina)
-        {
-            staminaDelay = StaminaGain(staminaDelay, gainingStaminaDelay);
-        }
-        else if (staminaDelay >= WaitSecondsStaminaGain)
-        {
-            canGainStamina = true;
-            staminaDelay = 0f;
-        }
-
-        //Check if the actor attacks or blocks after the delay, so it can happen again
-        if (isAttacking || isBlocking) canGainStamina = false;
-
-        if (canGainStamina && stamina <= initialStamina)
-        {
-            stamina = StaminaGain(stamina, gainingStamina);
-        }
-        else canGainStamina = false;
-    }*/
 }
 

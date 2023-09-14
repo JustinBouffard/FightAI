@@ -79,7 +79,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1193347774162674353}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 2.463, z: 0}
+  m_LocalPosition: {x: 0, y: 2.683, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -145,7 +145,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4044088479353224659}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.49, z: 0}
+  m_LocalPosition: {x: 0, y: 1.778, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -312,7 +312,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6191272229944256976}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.473, z: 0.176}
+  m_LocalPosition: {x: 0, y: 1.7610002, z: 0.176}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -442,7 +442,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8005525132369791621}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 2.473, z: 0}
+  m_LocalPosition: {x: 0, y: 2.746, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -598,7 +598,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6980234437573524411}
-  - component: {fileID: 6520735361939453774}
   m_Layer: 0
   m_Name: Env
   m_TagString: Untagged
@@ -625,18 +624,6 @@ Transform:
   m_Father: {fileID: 1335310428127124563}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6520735361939453774
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8975561630180214976}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1834bcae2eb134f4b9fc661c16bd3c17, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &3620208689258615458
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -656,14 +643,14 @@ PrefabInstance:
     - target: {fileID: 1256028246677080053, guid: 1f77d4c81089e914d9a2f36242b0466c, type: 3}
       propertyPath: m_Model
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 5022602860645237092, guid: 43d0883d32028dc4cab307b013857c22, type: 3}
     - target: {fileID: 1256028246677080053, guid: 1f77d4c81089e914d9a2f36242b0466c, type: 3}
       propertyPath: m_BehaviorName
       value: FightAgent
       objectReference: {fileID: 0}
     - target: {fileID: 1256028246677080053, guid: 1f77d4c81089e914d9a2f36242b0466c, type: 3}
       propertyPath: m_BehaviorType
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1256028246677080053, guid: 1f77d4c81089e914d9a2f36242b0466c, type: 3}
       propertyPath: m_BrainParameters.VectorActionSpaceType
@@ -727,7 +714,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3206991920457864961, guid: 1f77d4c81089e914d9a2f36242b0466c, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4155823216705061160, guid: 1f77d4c81089e914d9a2f36242b0466c, type: 3}
       propertyPath: m_RayLength
@@ -802,6 +789,10 @@ PrefabInstance:
       value: 5000
       objectReference: {fileID: 0}
     - target: {fileID: 5667511674893079458, guid: 1f77d4c81089e914d9a2f36242b0466c, type: 3}
+      propertyPath: stamina
+      value: 
+      objectReference: {fileID: 1762944644497779496}
+    - target: {fileID: 5667511674893079458, guid: 1f77d4c81089e914d9a2f36242b0466c, type: 3}
       propertyPath: SphereCastRadius
       value: 1
       objectReference: {fileID: 0}
@@ -846,10 +837,37 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 2756067051048194110}
     m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8149860129879863582, guid: 1f77d4c81089e914d9a2f36242b0466c, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1762944644497779496}
     - targetCorrespondingSourceObject: {fileID: 7502650365162926972, guid: 1f77d4c81089e914d9a2f36242b0466c, type: 3}
       insertIndex: -1
       addedObject: {fileID: 7250805343354630747}
   m_SourcePrefab: {fileID: 100100000, guid: 1f77d4c81089e914d9a2f36242b0466c, type: 3}
+--- !u!1 &4838992476533515196 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8149860129879863582, guid: 1f77d4c81089e914d9a2f36242b0466c, type: 3}
+  m_PrefabInstance: {fileID: 3620208689258615458}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1762944644497779496
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4838992476533515196}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be5ecc961d81e4b7bb697e90ef420dd8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  staminaValue: 1
+  MaxSecondsGain: 3
+  WaitSecondsStaminaGain: 2
+  MaxNumberOfAttacks: 3
+  MaxSecondsOfBlock: 3
+  attackStaminaCost: 0
+  blockStaminaCost: 0
 --- !u!4 &5218650145610086662 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8814052681899043748, guid: 1f77d4c81089e914d9a2f36242b0466c, type: 3}
@@ -898,7 +916,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5667511674893079458, guid: 1f77d4c81089e914d9a2f36242b0466c, type: 3}
   m_PrefabInstance: {fileID: 3620208689258615458}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 4838992476533515196}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1c6912f1730f9a84093eeed05539e3df, type: 3}
@@ -919,14 +937,14 @@ PrefabInstance:
     - target: {fileID: 1256028246677080053, guid: ceb2926d20368844eb6cbc324e58dea5, type: 3}
       propertyPath: m_Model
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 5022602860645237092, guid: 43d0883d32028dc4cab307b013857c22, type: 3}
     - target: {fileID: 1256028246677080053, guid: ceb2926d20368844eb6cbc324e58dea5, type: 3}
       propertyPath: m_BehaviorName
       value: FightAgent
       objectReference: {fileID: 0}
     - target: {fileID: 1256028246677080053, guid: ceb2926d20368844eb6cbc324e58dea5, type: 3}
       propertyPath: m_BehaviorType
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1256028246677080053, guid: ceb2926d20368844eb6cbc324e58dea5, type: 3}
       propertyPath: m_BrainParameters.VectorActionSpaceType
@@ -1003,6 +1021,10 @@ PrefabInstance:
     - target: {fileID: 4852276972603068885, guid: ceb2926d20368844eb6cbc324e58dea5, type: 3}
       propertyPath: m_Name
       value: AgentRed
+      objectReference: {fileID: 0}
+    - target: {fileID: 4852276972603068885, guid: ceb2926d20368844eb6cbc324e58dea5, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5126503429952740121, guid: ceb2926d20368844eb6cbc324e58dea5, type: 3}
       propertyPath: m_RootOrder

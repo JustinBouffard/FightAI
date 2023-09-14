@@ -4,6 +4,25 @@ using UnityEngine;
 
 public class Stamina : MonoBehaviour
 {
+    /// <summary>
+    /// TODO : Stamina function (not forget on collect obs) and machine vision
+    /// 
+    /// Stamina : 
+    /// 
+    /// Max actions : 
+    /// Attacking : 2 times
+    /// Blocking : 2 seconds
+    /// 
+    /// Max stamina = 1.00f
+    /// 
+    /// Attacking = 0.50f stamina
+    /// Blocking = 0.01f every fixed update
+    /// 
+    /// Gaining rate (note : if stamina == 0, wait 1 sec. and add a negative reward) : 1.5 sec. for full stamina
+    /// 
+    /// Make function to customize every parameter in engine, to change values dynamically (50 * seconds, stamina \ by the result)
+    /// </summary>
+
     // Stamina
     [Header("Stamina")]
     [SerializeField] public float staminaValue;
@@ -51,8 +70,6 @@ public class Stamina : MonoBehaviour
         if (fightAgent.isBlocking && blockStaminaCost <= staminaValue) staminaValue = StaminaDeduction(staminaValue, blockStaminaCost);
 
         StaminaReplenish();
-
-        Debug.Log(staminaValue);
     }
 
     /// <summary>
