@@ -103,6 +103,7 @@ public class FightAgent : Agent
         sensor.AddObservation(transform.localPosition.normalized);
         sensor.AddObservation(isAttacking);
         sensor.AddObservation(isBlocking);
+        sensor.AddObservation(stamina.staminaValue);
     }
 
     /// <summary>
@@ -154,6 +155,7 @@ public class FightAgent : Agent
         }
         else StopBlocking();
 
+        if (stamina.staminaValue <= stamina.attackStaminaCost || stamina.staminaValue <= stamina.blockStaminaCost) AddReward(-0.4f);
 
         // Check to change for greater value for motivating the AI to kill more rapidly
         AddReward(-0.1f);

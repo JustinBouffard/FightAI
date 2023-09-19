@@ -175,15 +175,86 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1762944644497779496, guid: 45c135381d069a442886905c6873727a, type: 3}
+      propertyPath: staminaValue
+      value: 1.00666
+      objectReference: {fileID: 0}
+    - target: {fileID: 2214670088781071779, guid: 45c135381d069a442886905c6873727a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2545624051192272215, guid: 45c135381d069a442886905c6873727a, type: 3}
+      propertyPath: m_Model
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2545624051192272215, guid: 45c135381d069a442886905c6873727a, type: 3}
+      propertyPath: m_BehaviorType
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2545624051192272215, guid: 45c135381d069a442886905c6873727a, type: 3}
+      propertyPath: m_BrainParameters.VectorObservationSize
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2762452178410127934, guid: 45c135381d069a442886905c6873727a, type: 3}
+      propertyPath: m_Model
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2762452178410127934, guid: 45c135381d069a442886905c6873727a, type: 3}
+      propertyPath: m_BehaviorType
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2762452178410127934, guid: 45c135381d069a442886905c6873727a, type: 3}
+      propertyPath: m_BrainParameters.VectorObservationSize
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 7228245341703899238, guid: 45c135381d069a442886905c6873727a, type: 3}
       propertyPath: m_Name
       value: EnvPrefab
       objectReference: {fileID: 0}
+    - target: {fileID: 8389850574504907806, guid: 45c135381d069a442886905c6873727a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8763854520712762985, guid: 45c135381d069a442886905c6873727a, type: 3}
+      propertyPath: stamina
+      value: 
+      objectReference: {fileID: 673733500}
+    - target: {fileID: 8978659542374760704, guid: 45c135381d069a442886905c6873727a, type: 3}
+      propertyPath: stamina
+      value: 
+      objectReference: {fileID: 1548860868}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5053709537265267925, guid: 45c135381d069a442886905c6873727a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 673733500}
   m_SourcePrefab: {fileID: 100100000, guid: 45c135381d069a442886905c6873727a, type: 3}
+--- !u!1 &673733497 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5053709537265267925, guid: 45c135381d069a442886905c6873727a, type: 3}
+  m_PrefabInstance: {fileID: 97267587}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &673733500
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 673733497}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be5ecc961d81e4b7bb697e90ef420dd8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  staminaValue: 1.00666
+  MaxSecondsGain: 3
+  WaitSecondsStaminaGain: 2
+  MaxNumberOfAttacks: 3
+  MaxSecondsOfBlock: 3
+  attackStaminaCost: 0
+  blockStaminaCost: 0
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -278,3 +349,14 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!114 &1548860868 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1762944644497779496, guid: 45c135381d069a442886905c6873727a, type: 3}
+  m_PrefabInstance: {fileID: 97267587}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be5ecc961d81e4b7bb697e90ef420dd8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
