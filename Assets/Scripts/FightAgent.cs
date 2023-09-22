@@ -12,6 +12,11 @@ using System.Linq;
 
 public class FightAgent : Agent
 {
+
+    /// <summary>
+    /// TODO : Add health and damage variables
+    /// </summary>
+
     //VARIABLES
 
     // Movement
@@ -204,7 +209,6 @@ public class FightAgent : Agent
 
         if (collision.gameObject.CompareTag("Bound"))
         {
-
             AddReward(-1f);
         }
         else if (collision.gameObject.CompareTag("Bottom")) EndEpisode();
