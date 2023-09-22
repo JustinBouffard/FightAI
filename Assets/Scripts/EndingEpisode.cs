@@ -10,12 +10,7 @@ public class EndingEpisode : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(AgentsCount);
-
-        if (AgentsCount <= 1)
-        {
-            AgentsCount = 0;
-        }
+        if (AgentsCount <= 1)   AgentsCount = 0;
     }
 
     public void AddAgent()

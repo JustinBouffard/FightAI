@@ -25,7 +25,7 @@ public class Stamina : MonoBehaviour
 
     // Stamina
     [Header("Stamina")]
-    [SerializeField] public float staminaValue;
+    [HideInInspector] public float staminaValue = 1.00666f;
     [SerializeField] float MaxSecondsGain;
     [SerializeField] float WaitSecondsStaminaGain;
     [SerializeField] int MaxNumberOfAttacks;

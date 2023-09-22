@@ -9,6 +9,7 @@ using Unity.VisualScripting;
 using UnityEditor.Animations;
 using System.Runtime.CompilerServices;
 using System.Linq;
+using UnityEngine.WSA;
 
 public class FightAgent : Agent
 {
@@ -86,7 +87,10 @@ public class FightAgent : Agent
     public override void OnEpisodeBegin()
     {
         // Random spawning
-        transform.localPosition = new Vector3(UnityEngine.Random.Range(xMinValueSpawning, xMaxValueSpawning), 0f, UnityEngine.Random.Range(zMinValueSpawning, zMaxValueSpawning));
+        MoveToSafeRandomPosition();
+        //transform.localPosition = new Vector3(UnityEngine.Random.Range(xMinValueSpawning, xMaxValueSpawning), 0f, UnityEngine.Random.Range(zMinValueSpawning, zMaxValueSpawning));
+
+        stamina.staminaValue = 1.00666f;
 
         endingEpisode.AddAgent();
     }
@@ -154,11 +158,7 @@ public class FightAgent : Agent
         }
         else StopBlocking();
 
-        if (endingEpisode.AgentsCount <= 1)
-        {
-            Debug.Log("EndEpisode");
-            EndEpisode();
-        }
+        if (endingEpisode.AgentsCount <= 1) EndEpisode();
 
         if (stamina.staminaValue <= stamina.attackStaminaCost || stamina.staminaValue <= stamina.blockStaminaCost) AddReward(-0.4f);
 
@@ -210,6 +210,8 @@ public class FightAgent : Agent
         if (collision.gameObject.CompareTag("Bound"))
         {
             AddReward(-1f);
+            // IMPORTANT check if really ending episode is ok, because it could mess with the reward function
+            endingEpisode.AgentsCount--;
         }
         else if (collision.gameObject.CompareTag("Bottom")) EndEpisode();
     }
@@ -232,6 +234,29 @@ public class FightAgent : Agent
         animator.SetFloat("VelocityX", velocityX, 0.1f, Time.deltaTime);
         animator.SetBool("isAttacking", isAttacking);
         animator.SetBool("isBlocking", isBlocking);
+    }
+
+    private void MoveToSafeRandomPosition()
+    {
+        bool safePositionFound = false;
+        int attemptsRemaining = 100;    //Prevent an infinite loop
+        Vector3 potentialPosition = Vector3.zero;
+        Quaternion potentialRotation = new Quaternion();
+
+        while(!safePositionFound && attemptsRemaining > 0)
+        {
+            potentialPosition = new Vector3(UnityEngine.Random.Range(xMinValueSpawning, xMaxValueSpawning), 0f, UnityEngine.Random.Range(zMinValueSpawning, zMaxValueSpawning));
+
+            float yaw = UnityEngine.Random.Range(-180f, 180f);
+            potentialRotation = Quaternion.Euler(0f, yaw, 0f);
+
+            Collider[] collider = Physics.OverlapSphere(potentialPosition, 0.05f);
+
+            safePositionFound = collider.Length == 0;
+        }
+
+        transform.localPosition = potentialPosition;
+        transform.localRotation = potentialRotation;
     }
 
     /// <summary>
