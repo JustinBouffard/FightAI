@@ -14,7 +14,10 @@ public class FightAgent : Agent
 {
 
     /// <summary>
-    /// TODO : Add health and damage variables
+    /// TODO : 
+    /// Add health and damage variables
+    /// 
+    /// Add number above head of agent to see stamina remaining
     /// </summary>
 
     //VARIABLES
@@ -41,6 +44,7 @@ public class FightAgent : Agent
 
     // Scripts variables
     [Header("Scripts Variables")]
+    [SerializeField] EndingEpisode endingEpisode;
     Animator animator;
     AttackArea attackArea;
     [Space(15)]
@@ -72,19 +76,7 @@ public class FightAgent : Agent
 
     private void Update()
     {
-        // Animating
-        float horizontal = Input.GetAxisRaw("Horizontal");
-        float vertical = Input.GetAxisRaw("Vertical");
-
-        Vector3 movement = new Vector3(horizontal, 0f, vertical);
-
-        float velocityZ = Vector3.Dot(movement.normalized, transform.forward);
-        float velocityX = Vector3.Dot(movement.normalized, transform.right);
-
-        animator.SetFloat("VelocityZ", velocityZ, 0.1f, Time.deltaTime);
-        animator.SetFloat("VelocityX", velocityX, 0.1f, Time.deltaTime);
-        animator.SetBool("isAttacking", isAttacking);
-        animator.SetBool("isBlocking", isBlocking);
+        Animating();
 
         HasKilled(attackArea.hasKilled);
 
@@ -95,6 +87,8 @@ public class FightAgent : Agent
     {
         // Random spawning
         transform.localPosition = new Vector3(UnityEngine.Random.Range(xMinValueSpawning, xMaxValueSpawning), 0f, UnityEngine.Random.Range(zMinValueSpawning, zMaxValueSpawning));
+
+        endingEpisode.AddAgent();
     }
 
     public override void CollectObservations(VectorSensor sensor)
@@ -160,6 +154,12 @@ public class FightAgent : Agent
         }
         else StopBlocking();
 
+        if (endingEpisode.AgentsCount <= 1)
+        {
+            Debug.Log("EndEpisode");
+            EndEpisode();
+        }
+
         if (stamina.staminaValue <= stamina.attackStaminaCost || stamina.staminaValue <= stamina.blockStaminaCost) AddReward(-0.4f);
 
         // Check to change for greater value for motivating the AI to kill more rapidly
@@ -212,6 +212,26 @@ public class FightAgent : Agent
             AddReward(-1f);
         }
         else if (collision.gameObject.CompareTag("Bottom")) EndEpisode();
+    }
+
+    /// <summary>
+    /// Setups the variables to animate the agent in the animator
+    /// </summary>
+    private void Animating()
+    {
+        // Animating
+        float horizontal = Input.GetAxisRaw("Horizontal");
+        float vertical = Input.GetAxisRaw("Vertical");
+
+        Vector3 movement = new Vector3(horizontal, 0f, vertical);
+
+        float velocityZ = Vector3.Dot(movement.normalized, transform.forward);
+        float velocityX = Vector3.Dot(movement.normalized, transform.right);
+
+        animator.SetFloat("VelocityZ", velocityZ, 0.1f, Time.deltaTime);
+        animator.SetFloat("VelocityX", velocityX, 0.1f, Time.deltaTime);
+        animator.SetBool("isAttacking", isAttacking);
+        animator.SetBool("isBlocking", isBlocking);
     }
 
     /// <summary>
@@ -279,7 +299,6 @@ public class FightAgent : Agent
         {
             hasKilled = false;
             AddReward(1f);
-            EndEpisode();
         }
     }
 
@@ -289,8 +308,8 @@ public class FightAgent : Agent
     private void IsDead()
     {
         AddReward(-1f);
-        
-        EndEpisode();
+
+        endingEpisode.AgentsCount--;
     }
 }
 
