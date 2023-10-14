@@ -1024,6 +1024,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 8975561630180214976}
     - target: {fileID: 5667511674893079458, guid: 1f77d4c81089e914d9a2f36242b0466c, type: 3}
+      propertyPath: health
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5667511674893079458, guid: 1f77d4c81089e914d9a2f36242b0466c, type: 3}
       propertyPath: MaxStep
       value: 5000
       objectReference: {fileID: 0}
@@ -1031,6 +1035,10 @@ PrefabInstance:
       propertyPath: stamina
       value: 
       objectReference: {fileID: 1762944644497779496}
+    - target: {fileID: 5667511674893079458, guid: 1f77d4c81089e914d9a2f36242b0466c, type: 3}
+      propertyPath: numOfHits
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 5667511674893079458, guid: 1f77d4c81089e914d9a2f36242b0466c, type: 3}
       propertyPath: endingEpisode
       value: 
@@ -1059,6 +1067,18 @@ PrefabInstance:
       propertyPath: stamina
       value: 
       objectReference: {fileID: 1762944644497779496}
+    - target: {fileID: 8764986776193988928, guid: 1f77d4c81089e914d9a2f36242b0466c, type: 3}
+      propertyPath: fightAgent
+      value: 
+      objectReference: {fileID: 8978659542374760704}
+    - target: {fileID: 8764986776193988928, guid: 1f77d4c81089e914d9a2f36242b0466c, type: 3}
+      propertyPath: healthText
+      value: 
+      objectReference: {fileID: 2612628334701497165}
+    - target: {fileID: 8764986776193988928, guid: 1f77d4c81089e914d9a2f36242b0466c, type: 3}
+      propertyPath: staminaText
+      value: 
+      objectReference: {fileID: 3512065485561107502}
     - target: {fileID: 8814052681899043748, guid: 1f77d4c81089e914d9a2f36242b0466c, type: 3}
       propertyPath: m_LocalPosition.x
       value: 8.96
@@ -1091,6 +1111,28 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 7250805343354630747}
   m_SourcePrefab: {fileID: 100100000, guid: 1f77d4c81089e914d9a2f36242b0466c, type: 3}
+--- !u!114 &2612628334701497165 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1620305478674946543, guid: 1f77d4c81089e914d9a2f36242b0466c, type: 3}
+  m_PrefabInstance: {fileID: 3620208689258615458}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &3512065485561107502 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 180368752658695820, guid: 1f77d4c81089e914d9a2f36242b0466c, type: 3}
+  m_PrefabInstance: {fileID: 3620208689258615458}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4838992476533515196 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8149860129879863582, guid: 1f77d4c81089e914d9a2f36242b0466c, type: 3}
@@ -1330,6 +1372,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 8975561630180214976}
     - target: {fileID: 5667511674893079458, guid: ceb2926d20368844eb6cbc324e58dea5, type: 3}
+      propertyPath: health
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5667511674893079458, guid: ceb2926d20368844eb6cbc324e58dea5, type: 3}
       propertyPath: MaxStep
       value: 5000
       objectReference: {fileID: 0}
@@ -1337,6 +1383,10 @@ PrefabInstance:
       propertyPath: stamina
       value: 
       objectReference: {fileID: 259849519456377329}
+    - target: {fileID: 5667511674893079458, guid: ceb2926d20368844eb6cbc324e58dea5, type: 3}
+      propertyPath: numOfHits
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 5667511674893079458, guid: ceb2926d20368844eb6cbc324e58dea5, type: 3}
       propertyPath: endingEpisode
       value: 
@@ -1361,6 +1411,18 @@ PrefabInstance:
       propertyPath: stamina
       value: 
       objectReference: {fileID: 259849519456377329}
+    - target: {fileID: 5715873451152255970, guid: ceb2926d20368844eb6cbc324e58dea5, type: 3}
+      propertyPath: fightAgent
+      value: 
+      objectReference: {fileID: 8763854520712762985}
+    - target: {fileID: 5715873451152255970, guid: ceb2926d20368844eb6cbc324e58dea5, type: 3}
+      propertyPath: healthText
+      value: 
+      objectReference: {fileID: 3046580517565200462}
+    - target: {fileID: 5715873451152255970, guid: ceb2926d20368844eb6cbc324e58dea5, type: 3}
+      propertyPath: staminaText
+      value: 
+      objectReference: {fileID: 2735904869401360477}
     - target: {fileID: 7945974774578326460, guid: ceb2926d20368844eb6cbc324e58dea5, type: 3}
       propertyPath: m_SizeDelta.x
       value: 10
@@ -1449,6 +1511,17 @@ MonoBehaviour:
 --- !u!114 &2735904869401360477 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1355476201363570070, guid: ceb2926d20368844eb6cbc324e58dea5, type: 3}
+  m_PrefabInstance: {fileID: 3979067262457382347}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &3046580517565200462 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2125659720960310661, guid: ceb2926d20368844eb6cbc324e58dea5, type: 3}
   m_PrefabInstance: {fileID: 3979067262457382347}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}

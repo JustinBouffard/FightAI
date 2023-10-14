@@ -18,10 +18,17 @@ public class FightAgent : Agent
     /// TODO : 
     /// Add health and damage variables
     /// 
-    /// Add number above head of agent to see stamina remaining
     /// </summary>
 
     //VARIABLES
+
+    //Health variables
+    [Header("Health")]
+    [SerializeField] public float health;
+    [SerializeField] private float numOfHits;
+    private float damage;
+    private float initialHealth;
+    [Space(15)]
 
     // Movement
     [Header("Movement")]
@@ -74,6 +81,12 @@ public class FightAgent : Agent
 
         attackArea.gameObject.active = false;
     }
+    private void Start()
+    {
+        initialHealth = health;
+
+        damage = health / numOfHits;
+    }
 
     private void Update()
     {
@@ -88,7 +101,8 @@ public class FightAgent : Agent
     {
         // Random spawning
         MoveToSafeRandomPosition();
-        //transform.localPosition = new Vector3(UnityEngine.Random.Range(xMinValueSpawning, xMaxValueSpawning), 0f, UnityEngine.Random.Range(zMinValueSpawning, zMaxValueSpawning));
+
+        health = initialHealth;
 
         stamina.staminaValue = 1.00666f;
 
@@ -193,7 +207,8 @@ public class FightAgent : Agent
         {
             if(isBlocking == false)
             {
-                IsDead();
+                TakingDamage();
+                attackArea.gameObject.active = false;
             }
         }
         else if (other.CompareTag(ennemySwordHitTag) && isBlocking)
@@ -312,6 +327,19 @@ public class FightAgent : Agent
     {
         isBlocking = false;
         canMove = true;
+    }
+
+    /// <summary>
+    /// Takes the damage done of the health 
+    /// </summary>
+    private void TakingDamage()
+    {
+        if (health <= damage)
+        {
+            health = 0f;
+            IsDead();
+        }
+        else health -= damage;
     }
 
     /// <summary>

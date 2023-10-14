@@ -7,7 +7,10 @@ using UnityEngine.UI;
 public class FloatToText : MonoBehaviour
 {
     [SerializeField] private Stamina stamina;
-    [SerializeField] private TextMeshProUGUI text;
+    [SerializeField] private FightAgent fightAgent;
+    [SerializeField] private TextMeshProUGUI staminaText;
+    [SerializeField] private TextMeshProUGUI healthText;
+    float healthValue;
     float staminaValue;
 
     // Start is called before the first frame update
@@ -19,7 +22,10 @@ public class FloatToText : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        healthValue = fightAgent.health;
+        healthText.text = healthValue.ToString();
+
         staminaValue = stamina.staminaValue;
-        text.text = staminaValue.ToString();
+        staminaText.text = staminaValue.ToString();
     }
 }
