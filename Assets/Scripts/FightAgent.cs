@@ -13,15 +13,13 @@ using UnityEngine.WSA;
 
 public class FightAgent : Agent
 {
-    //TODO : Return to old system for ending episode 
-
     //VARIABLES
 
     //Health variables
     [Header("Health")]
     [SerializeField] public float health;
     [SerializeField] private float numOfHits;
-    private float damage;
+    [HideInInspector] public float damage;
     private float initialHealth;
     [Space(15)]
 
@@ -56,7 +54,6 @@ public class FightAgent : Agent
     [Header("Combat Conditions")]
     [HideInInspector] public bool isAttacking;
     [HideInInspector] public bool isBlocking;
-    private float agentCount;
     bool canAttack = true;
     bool canBlock = true;
     bool canMove = true;
@@ -88,11 +85,12 @@ public class FightAgent : Agent
     {
         Animating();
 
+        HasHit(attackArea.hasHit);
         HasKilled(attackArea.hasKilled);
-
+        attackArea.hasHit = false;
         attackArea.hasKilled = false;
 
-        Debug.Log(agentCount);
+
     }
 
     public override void OnEpisodeBegin()
@@ -104,9 +102,7 @@ public class FightAgent : Agent
 
         stamina.staminaValue = 1.00666f;
 
-        env.fightAgents.Clear();
-        env.FindAgents(env.transform);
-        agentCount = env.fightAgents.Count;
+        env.AddAgent();
     }
 
     public override void CollectObservations(VectorSensor sensor)
@@ -166,7 +162,7 @@ public class FightAgent : Agent
         }
         else StopBlocking();
 
-        if (agentCount <= 1) EndEpisode();
+        if (env.AgentsCount <= 1) EndEpisode();
 
         if (stamina.staminaValue <= stamina.attackStaminaCost || stamina.staminaValue <= stamina.blockStaminaCost) AddReward(-0.4f);
 
@@ -218,9 +214,9 @@ public class FightAgent : Agent
         if (collision.gameObject.CompareTag("Bound"))
         {
             AddReward(-1f);
-            agentCount--;
+            env.AgentsCount--;
         }
-        else if (collision.gameObject.CompareTag("Bottom")) agentCount--;
+        else if (collision.gameObject.CompareTag("Bottom")) env.AgentsCount--;
     }
 
     /// <summary>
@@ -343,8 +339,21 @@ public class FightAgent : Agent
         if(hasKilled)
         {
             hasKilled = false;
-            agentCount--;
+            env.AgentsCount--;
             AddReward(1f);
+        }
+    }
+
+    /// <summary>
+    /// Called ewvery update, hashit is true when agent has hit his enemy
+    /// </summary>
+    /// <param name="hasHit"></param>
+    private void HasHit(bool hasHit)
+    {
+        if(hasHit)
+        {
+            hasHit = false;
+            AddReward(0.5f);
         }
     }
 
@@ -355,7 +364,7 @@ public class FightAgent : Agent
     {
         AddReward(-1f);
 
-        agentCount--;
+        env.AgentsCount--;
     }
 }
 

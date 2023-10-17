@@ -26,7 +26,7 @@ public class AttackArea : MonoBehaviour
 
         if (other.CompareTag(ennemyTag) && fightAgent.isBlocking == false)
         {
-            if (fightAgent.health <= 0f) hasKilled = true;
+            if (other.GetComponent<FightAgent>().health <= other.GetComponent<FightAgent>().damage) hasKilled = true;
             else hasHit = true;
         }
     }

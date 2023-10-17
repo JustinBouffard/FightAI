@@ -7,15 +7,24 @@ public class Env : MonoBehaviour
 
     [HideInInspector] public float AgentsCount;
     [SerializeField] public List<FightAgent> fightAgents;
+    [SerializeField] public List<Vector3> agentsPos;
 
     private void Awake()
     {
         fightAgents = new List<FightAgent>();
+        agentsPos = new List<Vector3>();
     }
 
     private void Start()
     {
         FindAgents(transform);
+
+        //Add other agents info when close
+        for (int i = 0; i < fightAgents.Count; i++)
+        {
+            fightAgents[i].transform.position = agentsPos[i];
+            //Use .min() for smallest element
+        }
     }
 
     // Update is called once per frame
