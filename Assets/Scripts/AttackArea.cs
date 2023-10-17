@@ -10,6 +10,7 @@ public class AttackArea : MonoBehaviour
     /// True when the agent killed an ennemy
     /// </summary>
     [HideInInspector] public bool hasKilled = false;
+    [HideInInspector] public bool hasHit = false;
 
 
     private FightAgent fightAgent;
@@ -25,7 +26,8 @@ public class AttackArea : MonoBehaviour
 
         if (other.CompareTag(ennemyTag) && fightAgent.isBlocking == false)
         {
-            hasKilled = true;
+            if (fightAgent.health <= 0f) hasKilled = true;
+            else hasHit = true;
         }
     }
 }

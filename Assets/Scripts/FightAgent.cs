@@ -13,12 +13,7 @@ using UnityEngine.WSA;
 
 public class FightAgent : Agent
 {
-
-    /// <summary>
-    /// TODO : 
-    /// Add health and damage variables
-    /// 
-    /// </summary>
+    //TODO : Return to old system for ending episode 
 
     //VARIABLES
 
@@ -52,7 +47,7 @@ public class FightAgent : Agent
 
     // Scripts variables
     [Header("Scripts Variables")]
-    [SerializeField] EndingEpisode endingEpisode;
+    [SerializeField] Env env;
     Animator animator;
     AttackArea attackArea;
     [Space(15)]
@@ -61,6 +56,7 @@ public class FightAgent : Agent
     [Header("Combat Conditions")]
     [HideInInspector] public bool isAttacking;
     [HideInInspector] public bool isBlocking;
+    private float agentCount;
     bool canAttack = true;
     bool canBlock = true;
     bool canMove = true;
@@ -95,6 +91,8 @@ public class FightAgent : Agent
         HasKilled(attackArea.hasKilled);
 
         attackArea.hasKilled = false;
+
+        Debug.Log(agentCount);
     }
 
     public override void OnEpisodeBegin()
@@ -106,16 +104,13 @@ public class FightAgent : Agent
 
         stamina.staminaValue = 1.00666f;
 
-        endingEpisode.AddAgent();
+        env.fightAgents.Clear();
+        env.FindAgents(env.transform);
+        agentCount = env.fightAgents.Count;
     }
 
     public override void CollectObservations(VectorSensor sensor)
     {
-        // TODO : Collect the location of the ennemies and the allies make function to find them in child of the env, rotation of the agent, vector from the agent to the ennemy
-        // REMEMBER TO ALWAYS NORMALIZE
-
-        // Observe the local position and rotation of the red agents
-
         sensor.AddObservation(transform.localRotation.normalized);
         sensor.AddObservation(transform.localPosition.normalized);
         sensor.AddObservation(isAttacking);
@@ -136,7 +131,6 @@ public class FightAgent : Agent
     /// <param name="actions"></param>
     public override void OnActionReceived(ActionBuffers actions)
     {
-        // TODO : Add the actions that the agent can do, moveX, moveZ, Attack, Block and rotation
         float moveX = actions.DiscreteActions[0];
         float moveZ = actions.DiscreteActions[1];
         float yawRotation = actions.DiscreteActions[2];
@@ -172,7 +166,7 @@ public class FightAgent : Agent
         }
         else StopBlocking();
 
-        if (endingEpisode.AgentsCount <= 1) EndEpisode();
+        if (agentCount <= 1) EndEpisode();
 
         if (stamina.staminaValue <= stamina.attackStaminaCost || stamina.staminaValue <= stamina.blockStaminaCost) AddReward(-0.4f);
 
@@ -182,7 +176,6 @@ public class FightAgent : Agent
 
     public override void Heuristic(in ActionBuffers actionsOut)
     {
-        //  TODO : Add the actions that the agent can do to test if working
         ActionSegment<int> discreteActions = actionsOut.DiscreteActions;
 
         // Moving
@@ -225,10 +218,9 @@ public class FightAgent : Agent
         if (collision.gameObject.CompareTag("Bound"))
         {
             AddReward(-1f);
-            // IMPORTANT check if really ending episode is ok, because it could mess with the reward function
-            endingEpisode.AgentsCount--;
+            agentCount--;
         }
-        else if (collision.gameObject.CompareTag("Bottom")) EndEpisode();
+        else if (collision.gameObject.CompareTag("Bottom")) agentCount--;
     }
 
     /// <summary>
@@ -351,6 +343,7 @@ public class FightAgent : Agent
         if(hasKilled)
         {
             hasKilled = false;
+            agentCount--;
             AddReward(1f);
         }
     }
@@ -362,7 +355,7 @@ public class FightAgent : Agent
     {
         AddReward(-1f);
 
-        endingEpisode.AgentsCount--;
+        agentCount--;
     }
 }
 

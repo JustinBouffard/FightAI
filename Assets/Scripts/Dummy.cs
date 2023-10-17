@@ -6,7 +6,7 @@ public class Dummy : MonoBehaviour
 {
 
     [SerializeField] bool isBlocking = false;
-    [SerializeField] EndingEpisode endingEpisode;
+    [SerializeField] Env env;
 
     Animator animator;
 
@@ -17,7 +17,7 @@ public class Dummy : MonoBehaviour
 
     private void Start()
     {
-        endingEpisode.AddAgent();
+        env.AddAgent();
     }
 
     // Update is called once per frame
@@ -31,7 +31,7 @@ public class Dummy : MonoBehaviour
         if (other.gameObject.CompareTag("BlueSwordHit") && !isBlocking)
         {
             Destroy(transform.gameObject);
-            endingEpisode.AgentsCount--;
+            env.AgentsCount--;
         }
     }
 }
