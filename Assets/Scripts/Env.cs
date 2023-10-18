@@ -49,7 +49,7 @@ public class Env : MonoBehaviour
         }
     }
 
-    public FightAgent FindClosestAgent()
+    /*public FightAgent FindClosestAgent()
     {
         Vector3 smallesDist = agentsDist.Min();
         for (int i = 0; i < fightAgents.Count; i++)
@@ -80,4 +80,25 @@ public class Env : MonoBehaviour
     {
         return new Vector3(Mathf.Abs(first.x - second.x), Mathf.Abs(first.y - second.y), Mathf.Abs(first.z - second.z));
     }
+    
+     Replace everything by this function
+     Transform GetClosestEnemy (Transform[] enemies)
+    {
+        Transform bestTarget = null;
+        float closestDistanceSqr = Mathf.Infinity;
+        Vector3 currentPosition = transform.position;
+        foreach(Transform potentialTarget in enemies)
+        {
+            Vector3 directionToTarget = potentialTarget.position - currentPosition;
+            float dSqrToTarget = directionToTarget.sqrMagnitude;
+            if(dSqrToTarget < closestDistanceSqr)
+            {
+                closestDistanceSqr = dSqrToTarget;
+                bestTarget = potentialTarget;
+            }
+        }
+     
+        return bestTarget;
+    }
+     */
 }
