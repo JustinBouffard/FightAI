@@ -79,6 +79,8 @@ public class FightAgent : Agent
         initialHealth = health;
 
         damage = health / numOfHits;
+
+        env.FindAgentsDistances(transform);
     }
 
     private void Update()
@@ -89,8 +91,6 @@ public class FightAgent : Agent
         HasKilled(attackArea.hasKilled);
         attackArea.hasHit = false;
         attackArea.hasKilled = false;
-
-
     }
 
     public override void OnEpisodeBegin()

@@ -8,12 +8,12 @@ public class Env : MonoBehaviour
 
     [HideInInspector] public float AgentsCount;
     [SerializeField] public List<FightAgent> fightAgents;
-    [SerializeField] public List<Vector3> agentsPos;
+    [SerializeField] public List<Vector3> agentsDist;
 
     private void Awake()
     {
         fightAgents = new List<FightAgent>();
-        agentsPos = new List<Vector3>();
+        agentsDist = new List<Vector3>();
     }
 
     private void Start()
@@ -39,19 +39,7 @@ public class Env : MonoBehaviour
         {
             Transform child = parent.GetChild(i);
 
-            if (child.CompareTag("RedAgent"))
-            {
-                fightAgents.Add(child.GetComponent<FightAgent>());
-
-                FindAgents(child);
-            }
-            else if (child.CompareTag("BlueAgent"))
-            {
-                fightAgents.Add(child.GetComponent<FightAgent>());
-
-                FindAgents(child);
-            }
-            else if (child.CompareTag("DummyAgent"))
+            if (child.CompareTag("RedAgent") || child.CompareTag("BlueAgent") || child.CompareTag("DummyAgent"))
             {
                 fightAgents.Add(child.GetComponent<FightAgent>());
 
@@ -61,16 +49,35 @@ public class Env : MonoBehaviour
         }
     }
 
-    public void FindClosestAgent(Transform self)
+    public FightAgent FindClosestAgent()
+    {
+        Vector3 smallesDist = agentsDist.Min();
+        for (int i = 0; i < fightAgents.Count; i++)
+        {
+            if (fightAgents[i].transform.localPosition == smallesDist)
+            {
+                return fightAgents[i];
+            }
+        }
+
+        return fightAgents[0];
+    }
+
+    public void FindAgentsDistances(Transform self)
     {
         //Add other agents info when close
         for (int i = 0; i < fightAgents.Count; i++)
         {
-            if((self.position - fightAgents[i].transform.position) != new Vector3(0f, 0f, 0f))
-            {
+           // if (AbsOfVectorSubstraction(self.localPosition, fightAgents[i].transform.localPosition) != new Vector3(0f, 0f, 0f))
+            //{
                 //Find the absolute value of the operation do a function to calculate
-                //agentsPos[i] = fightAgents[i].transform.position.
-            }
+                agentsDist.Add(AbsOfVectorSubstraction(self.localPosition, fightAgents[i].transform.localPosition));
+           // }
         }
+    }
+
+    private Vector3 AbsOfVectorSubstraction(Vector3 first, Vector3 second)
+    {
+        return new Vector3(Mathf.Abs(first.x - second.x), Mathf.Abs(first.y - second.y), Mathf.Abs(first.z - second.z));
     }
 }
