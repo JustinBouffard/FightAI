@@ -191,6 +191,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: EnvPrefab
       objectReference: {fileID: 0}
+    - target: {fileID: 8078476016165527250, guid: 45c135381d069a442886905c6873727a, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 7.591
+      objectReference: {fileID: 0}
     - target: {fileID: 8172714657045971831, guid: 45c135381d069a442886905c6873727a, type: 3}
       propertyPath: m_TagString
       value: Untagged

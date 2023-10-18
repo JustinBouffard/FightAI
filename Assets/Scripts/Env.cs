@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Env : MonoBehaviour
@@ -18,13 +19,6 @@ public class Env : MonoBehaviour
     private void Start()
     {
         FindAgents(transform);
-
-        //Add other agents info when close
-        for (int i = 0; i < fightAgents.Count; i++)
-        {
-            fightAgents[i].transform.position = agentsPos[i];
-            //Use .min() for smallest element
-        }
     }
 
     // Update is called once per frame
@@ -64,6 +58,19 @@ public class Env : MonoBehaviour
                 FindAgents(child);
             }
             else FindAgents(child);
+        }
+    }
+
+    public void FindClosestAgent(Transform self)
+    {
+        //Add other agents info when close
+        for (int i = 0; i < fightAgents.Count; i++)
+        {
+            if((self.position - fightAgents[i].transform.position) != new Vector3(0f, 0f, 0f))
+            {
+                //Find the absolute value of the operation do a function to calculate
+                //agentsPos[i] = fightAgents[i].transform.position.
+            }
         }
     }
 }
