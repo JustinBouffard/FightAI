@@ -79,8 +79,6 @@ public class FightAgent : Agent
         initialHealth = health;
 
         damage = health / numOfHits;
-
-        env.FindAgentsDistances(transform);
     }
 
     private void Update()

@@ -79,19 +79,20 @@ public class Env : MonoBehaviour
     private Vector3 AbsOfVectorSubstraction(Vector3 first, Vector3 second)
     {
         return new Vector3(Mathf.Abs(first.x - second.x), Mathf.Abs(first.y - second.y), Mathf.Abs(first.z - second.z));
-    }
+    }*/
     
-     Replace everything by this function
-     Transform GetClosestEnemy (Transform[] enemies)
+    // Replace everything by this function
+    public FightAgent GetClosestAgent(List<FightAgent> fightAgents, Vector3 selfLocalPosition)
     {
-        Transform bestTarget = null;
+        FightAgent bestTarget = null;
         float closestDistanceSqr = Mathf.Infinity;
-        Vector3 currentPosition = transform.position;
-        foreach(Transform potentialTarget in enemies)
+
+        foreach(FightAgent potentialTarget in fightAgents)
         {
-            Vector3 directionToTarget = potentialTarget.position - currentPosition;
+            Vector3 directionToTarget = potentialTarget.transform.localPosition - selfLocalPosition;
             float dSqrToTarget = directionToTarget.sqrMagnitude;
-            if(dSqrToTarget < closestDistanceSqr)
+
+            if(dSqrToTarget < closestDistanceSqr && dSqrToTarget != 0)
             {
                 closestDistanceSqr = dSqrToTarget;
                 bestTarget = potentialTarget;
@@ -100,5 +101,4 @@ public class Env : MonoBehaviour
      
         return bestTarget;
     }
-     */
 }
