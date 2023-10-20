@@ -187,6 +187,14 @@ PrefabInstance:
       propertyPath: m_TagString
       value: DummyAgent
       objectReference: {fileID: 0}
+    - target: {fileID: 2545624051192272215, guid: 45c135381d069a442886905c6873727a, type: 3}
+      propertyPath: m_BrainParameters.VectorObservationSize
+      value: 19
+      objectReference: {fileID: 0}
+    - target: {fileID: 2762452178410127934, guid: 45c135381d069a442886905c6873727a, type: 3}
+      propertyPath: m_BrainParameters.VectorObservationSize
+      value: 19
+      objectReference: {fileID: 0}
     - target: {fileID: 7228245341703899238, guid: 45c135381d069a442886905c6873727a, type: 3}
       propertyPath: m_Name
       value: EnvPrefab

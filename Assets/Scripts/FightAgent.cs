@@ -66,6 +66,8 @@ public class FightAgent : Agent
     // Rotation
     private float smoothYawRotation = 1f;
 
+    [SerializeField] FightAgent closestAgent;
+
     private void Awake()
     {
         animator = GetComponent<Animator>();
@@ -110,6 +112,21 @@ public class FightAgent : Agent
         sensor.AddObservation(isAttacking);
         sensor.AddObservation(isBlocking);
         sensor.AddObservation(stamina.staminaValue);
+
+        if (closestAgent != null)
+        {
+            sensor.AddObservation(closestAgent.transform.localRotation.normalized);
+            sensor.AddObservation(closestAgent.transform.localPosition.normalized);
+            sensor.AddObservation(closestAgent.isAttacking);
+            sensor.AddObservation(closestAgent.isBlocking);
+        }
+        else
+        {
+            sensor.AddObservation(new Quaternion().normalized);
+            sensor.AddObservation(new Vector3().normalized);
+            sensor.AddObservation(false);
+            sensor.AddObservation(false);
+        }
     }
 
     /// <summary>
@@ -159,6 +176,9 @@ public class FightAgent : Agent
             else if (!block && !isAttacking) StopBlocking();
         }
         else StopBlocking();
+
+        // Get the closest agent to us
+        closestAgent = env.GetClosestAgent(env.fightAgents, transform.localPosition);
 
         if (env.AgentsCount <= 1) EndEpisode();
 

@@ -49,39 +49,6 @@ public class Env : MonoBehaviour
         }
     }
 
-    /*public FightAgent FindClosestAgent()
-    {
-        Vector3 smallesDist = agentsDist.Min();
-        for (int i = 0; i < fightAgents.Count; i++)
-        {
-            if (fightAgents[i].transform.localPosition == smallesDist)
-            {
-                return fightAgents[i];
-            }
-        }
-
-        return fightAgents[0];
-    }
-
-    public void FindAgentsDistances(Transform self)
-    {
-        //Add other agents info when close
-        for (int i = 0; i < fightAgents.Count; i++)
-        {
-           // if (AbsOfVectorSubstraction(self.localPosition, fightAgents[i].transform.localPosition) != new Vector3(0f, 0f, 0f))
-            //{
-                //Find the absolute value of the operation do a function to calculate
-                agentsDist.Add(AbsOfVectorSubstraction(self.localPosition, fightAgents[i].transform.localPosition));
-           // }
-        }
-    }
-
-    private Vector3 AbsOfVectorSubstraction(Vector3 first, Vector3 second)
-    {
-        return new Vector3(Mathf.Abs(first.x - second.x), Mathf.Abs(first.y - second.y), Mathf.Abs(first.z - second.z));
-    }*/
-    
-    // Replace everything by this function
     public FightAgent GetClosestAgent(List<FightAgent> fightAgents, Vector3 selfLocalPosition)
     {
         FightAgent bestTarget = null;
