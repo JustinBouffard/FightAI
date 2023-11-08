@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class AttackArea : MonoBehaviour
 {
-    [SerializeField] private string ennemyTag;
-
     /// <summary>
     /// True when the agent killed an ennemy
     /// </summary>
@@ -24,7 +22,7 @@ public class AttackArea : MonoBehaviour
         }
 
 
-        if (other.CompareTag(ennemyTag) && fightAgent.isBlocking == false)
+        if (other.CompareTag("SwordHit") && fightAgent.isBlocking == false)
         {
             if (other.GetComponent<FightAgent>().health <= other.GetComponent<FightAgent>().damage) hasKilled = true;
             else hasHit = true;

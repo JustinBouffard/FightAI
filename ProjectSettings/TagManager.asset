@@ -7,14 +7,13 @@ TagManager:
   - Bound
   - RedAgent
   - BlueAgent
-  - RedSwordHit
-  - BlueSwordHit
   - Env
   - Bottom
   - Idle
   - IsAttacking
   - IsBlocking
   - DummyAgent
+  - SwordHit
   layers:
   - Default
   - TransparentFX

@@ -39,7 +39,6 @@ public class FightAgent : Agent
 
     // Tags
     [Header("Tags")]
-    [SerializeField] private string ennemySwordHitTag;
     [SerializeField] private string allySwordHitTag;
     [Space(15)]
 
@@ -210,7 +209,7 @@ public class FightAgent : Agent
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag(ennemySwordHitTag))
+        if (other.CompareTag("SwordHit"))
         {
             if(isBlocking == false)
             {
@@ -218,7 +217,7 @@ public class FightAgent : Agent
                 attackArea.gameObject.active = false;
             }
         }
-        else if (other.CompareTag(ennemySwordHitTag) && isBlocking)
+        else if (other.CompareTag("SwordHit") && isBlocking)
         {
             AddReward(0.8f);
         }

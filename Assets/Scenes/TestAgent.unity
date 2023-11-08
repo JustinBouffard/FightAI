@@ -319,9 +319,17 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 1380416787859115261, guid: 45c135381d069a442886905c6873727a, type: 3}
+      propertyPath: m_TagString
+      value: SwordHit
+      objectReference: {fileID: 0}
     - target: {fileID: 1598168504978529172, guid: 45c135381d069a442886905c6873727a, type: 3}
       propertyPath: m_Layer
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1598168504978529172, guid: 45c135381d069a442886905c6873727a, type: 3}
+      propertyPath: m_TagString
+      value: SwordHit
       objectReference: {fileID: 0}
     - target: {fileID: 1617018112702454526, guid: 45c135381d069a442886905c6873727a, type: 3}
       propertyPath: m_SensorName
