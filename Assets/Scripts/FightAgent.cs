@@ -65,7 +65,7 @@ public class FightAgent : Agent
     // Rotation
     private float smoothYawRotation = 1f;
 
-    [SerializeField] FightAgent closestAgent;
+    [HideInInspector] public FightAgent closestAgent;
 
     private void Awake()
     {
