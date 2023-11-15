@@ -8,12 +8,10 @@ public class Env : MonoBehaviour
 
     [HideInInspector] public float AgentsCount;
     [SerializeField] public List<FightAgent> fightAgents;
-    [SerializeField] public List<Vector3> agentsDist;
 
     private void Awake()
     {
         fightAgents = new List<FightAgent>();
-        agentsDist = new List<Vector3>();
     }
 
     private void Start()
