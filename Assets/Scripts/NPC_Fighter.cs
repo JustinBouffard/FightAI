@@ -8,6 +8,8 @@ public class NPC_Fighter : MonoBehaviour
     private FightAgent fightAgent;
     private Env env;
 
+    [SerializeField] private FightAgent closestAgent;
+
     private void Awake()
     {
         fightAgent = GetComponent<FightAgent>();
@@ -17,25 +19,25 @@ public class NPC_Fighter : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-       
+    
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     // Put GetToClosestAgent in the fixed update
     private void FixedUpdate()
     {
-        transform.localPosition = GetToClosestAgent();
+        GetToClosestAgent();
     }
 
-    private Vector3 GetToClosestAgent()
+    private void GetToClosestAgent()
     {
-        FightAgent closestAgent = env.GetClosestAgent(env.fightAgents, transform.localPosition);
+        closestAgent = env.GetClosestAgent(env.fightAgents, transform.localPosition);
 
-        return Vector3.MoveTowards(transform.localPosition, closestAgent.transform.localPosition, 1);
+        if (closestAgent != null) Debug.Log(closestAgent.name);
     }
 }

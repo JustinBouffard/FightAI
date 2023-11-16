@@ -37,11 +37,9 @@ public class Env : MonoBehaviour
         {
             Transform child = parent.GetChild(i);
 
-            if (child.CompareTag("RedAgent") || child.CompareTag("BlueAgent") || child.CompareTag("DummyAgent"))
+            if (child.CompareTag("RedAgent") || child.CompareTag("BlueAgent"))
             {
                 fightAgents.Add(child.GetComponent<FightAgent>());
-
-                FindAgents(child);
             }
             else FindAgents(child);
         }
