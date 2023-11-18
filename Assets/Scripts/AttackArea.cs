@@ -11,21 +11,23 @@ public class AttackArea : MonoBehaviour
     [HideInInspector] public bool hasHit = false;
 
 
-    private FightAgent fightAgent;
+    private GameObject character;
 
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.transform.gameObject.GetComponent<FightAgent>() != null)
+        if (other.gameObject != null)
         {
-            fightAgent = other.transform.gameObject.GetComponent<FightAgent>();
+            character = other.gameObject;
         }
 
-
-        if (other.CompareTag("SwordHit") && fightAgent.isBlocking == false)
+        if(character.GetComponent<FightAgent>() != null)
         {
-            if (other.GetComponent<FightAgent>().health <= other.GetComponent<FightAgent>().damage) hasKilled = true;
-            else hasHit = true;
+            if(character.CompareTag("SwordHit") && !character.GetComponent<FightAgent>().isBlocking)
+            {
+                if (other.GetComponent<FightAgent>().health <= other.GetComponent<FightAgent>().damage) hasKilled = true;
+                else hasHit = true;
+            }
         }
     }
 }

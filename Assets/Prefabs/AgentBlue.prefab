@@ -625,7 +625,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df8648d40dc44b64cadb37ec1878c6b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stamina: {fileID: 7618612740826921749}
+  stamina: {fileID: 8161217809430356580}
   fightAgent: {fileID: 5667511674893079458}
   staminaText: {fileID: 180368752658695820}
   healthText: {fileID: 1620305478674946543}
@@ -887,15 +887,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ecd8fff5338be1f47a2adfba5dc5679b, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 8.868493
+      value: 10.05
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ecd8fff5338be1f47a2adfba5dc5679b, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.27799988
+      value: 0.278
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ecd8fff5338be1f47a2adfba5dc5679b, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 4.3817816
+      value: 2.48
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ecd8fff5338be1f47a2adfba5dc5679b, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1227,13 +1227,10 @@ PrefabInstance:
       addedObject: {fileID: 5554213086982133208}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: ecd8fff5338be1f47a2adfba5dc5679b, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1206832670126159097}
+      addedObject: {fileID: 8161217809430356580}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: ecd8fff5338be1f47a2adfba5dc5679b, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 7618612740826921749}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: ecd8fff5338be1f47a2adfba5dc5679b, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 8470028202368025196}
+      addedObject: {fileID: 1487378027568877223}
   m_SourcePrefab: {fileID: 100100000, guid: ecd8fff5338be1f47a2adfba5dc5679b, type: 3}
 --- !u!4 &2394167648144783571 stripped
 Transform:
@@ -1371,12 +1368,11 @@ MonoBehaviour:
   zMinValueSpawning: 0.5
   xMaxValueSpawning: 10
   xMinValueSpawning: 5
-  allySwordHitTag: BlueSwordHit
   env: {fileID: 0}
   isAttacking: 0
   isBlocking: 0
-  stamina: {fileID: 7618612740826921749}
-  closestAgent: {fileID: 0}
+  stamina: {fileID: 8161217809430356580}
+  closestCharacter: {fileID: 0}
 --- !u!114 &5554213086982133208
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1391,7 +1387,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DecisionPeriod: 5
   TakeActionsBetweenDecisions: 1
---- !u!114 &1206832670126159097
+--- !u!114 &8161217809430356580
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1410,26 +1406,7 @@ MonoBehaviour:
   MaxSecondsOfBlock: 3
   attackStaminaCost: 0
   blockStaminaCost: 0
---- !u!114 &7618612740826921749
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8149860129879863582}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: be5ecc961d81e4b7bb697e90ef420dd8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  staminaValue: 1.00666
-  MaxSecondsGain: 3
-  WaitSecondsStaminaGain: 1.3
-  MaxNumberOfAttacks: 4
-  MaxSecondsOfBlock: 3
-  attackStaminaCost: 0
-  blockStaminaCost: 0
---- !u!114 &8470028202368025196
+--- !u!114 &1487378027568877223
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

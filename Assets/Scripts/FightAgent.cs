@@ -37,11 +37,6 @@ public class FightAgent : Agent
     [SerializeField] float xMinValueSpawning;
     [Space(15)]
 
-    // Tags
-    [Header("Tags")]
-    [SerializeField] private string allySwordHitTag;
-    [Space(15)]
-
     // Scripts variables
     [Header("Scripts Variables")]
     [SerializeField] Env env;
@@ -65,7 +60,7 @@ public class FightAgent : Agent
     // Rotation
     private float smoothYawRotation = 1f;
 
-    [HideInInspector] public FightAgent closestAgent;
+    [HideInInspector] public GameObject closestCharacter;
 
     private void Awake()
     {
@@ -112,12 +107,25 @@ public class FightAgent : Agent
         sensor.AddObservation(isBlocking);
         sensor.AddObservation(stamina.staminaValue);
 
-        if (closestAgent != null)
+        // DONT FORGET OBS FOR THE NPC  
+        if(closestCharacter != null)
         {
-            sensor.AddObservation(closestAgent.transform.localRotation.normalized);
-            sensor.AddObservation(closestAgent.transform.localPosition.normalized);
-            sensor.AddObservation(closestAgent.isAttacking);
-            sensor.AddObservation(closestAgent.isBlocking);
+            if (closestCharacter.GetComponent<FightAgent>() != null)
+            {
+                FightAgent agent = closestCharacter.GetComponent<FightAgent>();
+
+                sensor.AddObservation(agent.transform.localRotation.normalized);
+                sensor.AddObservation(agent.transform.localPosition.normalized);
+                sensor.AddObservation(agent.isAttacking);
+                sensor.AddObservation(agent.isBlocking);
+            }
+            else
+            {
+                sensor.AddObservation(new Quaternion().normalized);
+                sensor.AddObservation(new Vector3().normalized);
+                sensor.AddObservation(false);
+                sensor.AddObservation(false);
+            }
         }
         else
         {
@@ -176,8 +184,8 @@ public class FightAgent : Agent
         }
         else StopBlocking();
 
-        // Get the closest agent to us
-        closestAgent = env.GetClosestAgent(env.fightAgents, transform.localPosition);
+        // Get the closest character to us
+        closestCharacter = env.GetClosestCharacter(env.characters, transform.localPosition);
 
         if (env.AgentsCount <= 1) EndEpisode();
 
@@ -221,8 +229,6 @@ public class FightAgent : Agent
         {
             AddReward(0.8f);
         }
-
-        if (other.CompareTag(allySwordHitTag)) AddReward(-0.5f);
     }
 
     private void OnCollisionEnter(Collision collision)

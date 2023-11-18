@@ -7,11 +7,11 @@ public class Env : MonoBehaviour
 {
 
     [HideInInspector] public float AgentsCount;
-    [SerializeField] public List<FightAgent> fightAgents;
+    [SerializeField] public List<GameObject> characters;
 
     private void Awake()
     {
-        fightAgents = new List<FightAgent>();
+        characters = new List<GameObject>();
     }
 
     private void Start()
@@ -37,20 +37,22 @@ public class Env : MonoBehaviour
         {
             Transform child = parent.GetChild(i);
 
-            if (child.CompareTag("RedAgent") || child.CompareTag("BlueAgent"))
+            if (child.CompareTag("RedAgent") || child.CompareTag("BlueAgent") || child.CompareTag("DummyAgent"))
             {
-                fightAgents.Add(child.GetComponent<FightAgent>());
+                characters.Add(child.gameObject);
+
+                FindAgents(child);
             }
             else FindAgents(child);
         }
     }
 
-    public FightAgent GetClosestAgent(List<FightAgent> fightAgents, Vector3 selfLocalPosition)
+    public GameObject GetClosestCharacter(List<GameObject> characters, Vector3 selfLocalPosition)
     {
-        FightAgent bestTarget = null;
+        GameObject bestTarget = null;
         float closestDistanceSqr = Mathf.Infinity;
 
-        foreach(FightAgent potentialTarget in fightAgents)
+        foreach(GameObject potentialTarget in characters)
         {
             Vector3 directionToTarget = potentialTarget.transform.localPosition - selfLocalPosition;
             float dSqrToTarget = directionToTarget.sqrMagnitude;

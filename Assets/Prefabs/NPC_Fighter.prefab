@@ -165,7 +165,7 @@ Transform:
   m_Children:
   - {fileID: 6929663569154061297}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2110527100106979097
 GameObject:
@@ -652,7 +652,6 @@ GameObject:
   - component: {fileID: 7103014065056370147}
   - component: {fileID: 608778792106464524}
   - component: {fileID: 8603831682919304846}
-  - component: {fileID: 93597082187335516}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -747,22 +746,6 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &93597082187335516
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2961114037668202414}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: df8648d40dc44b64cadb37ec1878c6b0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  stamina: {fileID: 0}
-  fightAgent: {fileID: 0}
-  staminaText: {fileID: 0}
-  healthText: {fileID: 0}
 --- !u!1001 &97821264853117400
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1037,3 +1020,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8355e48d440d047448b78817029357fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  env: {fileID: 0}
