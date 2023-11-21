@@ -134,11 +134,13 @@ public class FightAgent : Agent
                 sensor.AddObservation(agent.isAttacking);
                 sensor.AddObservation(agent.isBlocking);
             }
-            else
+            else if(closestCharacter.GetComponent<NPC_Fighter>() != null)
             {
-                sensor.AddObservation(new Quaternion().normalized);
-                sensor.AddObservation(new Vector3().normalized);
-                sensor.AddObservation(false);
+                NPC_Fighter npc = closestCharacter.GetComponent <NPC_Fighter>();
+
+                sensor.AddObservation(npc.transform.localRotation.normalized);
+                sensor.AddObservation(npc.transform.localPosition.normalized);
+                sensor.AddObservation(npc.isAttacking);
                 sensor.AddObservation(false);
             }
         }

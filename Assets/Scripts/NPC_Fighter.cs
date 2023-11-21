@@ -20,7 +20,7 @@ public class NPC_Fighter : MonoBehaviour
     //Attacking
     [Header("Attacking")]
     [SerializeField] private float timeBetweenAttacks;
-    [HideInInspector] public bool attacking;
+    [HideInInspector] public bool isAttacking = false;
     private bool alreadyAttacked;
     [Space(15f)]
 
@@ -116,6 +116,7 @@ public class NPC_Fighter : MonoBehaviour
 
         if(!alreadyAttacked)
         {
+            isAttacking = true;
             animator.Play(name = "Sword And Shield Slash 0");
 
             alreadyAttacked = true;
@@ -132,6 +133,7 @@ public class NPC_Fighter : MonoBehaviour
     IEnumerator canBeHitDelay()
     {
         yield return new WaitForSeconds(0.7f);
+        yield return isAttacking = false;
         yield return canBeHit = true;
     }
 }
