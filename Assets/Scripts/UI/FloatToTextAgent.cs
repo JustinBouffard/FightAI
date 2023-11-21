@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class FloatToText : MonoBehaviour
+public class FloatToTextAgent : MonoBehaviour
 {
     [SerializeField] private Stamina stamina;
     [SerializeField] private FightAgent fightAgent;

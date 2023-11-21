@@ -18,7 +18,7 @@ public class FightAgent : Agent
     //Health variables
     [Header("Health")]
     [SerializeField] public float health;
-    [SerializeField] private float numOfHits;
+    [SerializeField] private int numOfHits;
     [HideInInspector] public float damage;
     private float initialHealth;
     [Space(15)]
@@ -42,6 +42,7 @@ public class FightAgent : Agent
     [SerializeField] Env env;
     Animator animator;
     AttackArea attackArea;
+    RandomSpawning randomSpawn;
     [Space(15)]
 
     // Combat conditions
@@ -52,6 +53,7 @@ public class FightAgent : Agent
     bool canBlock = true;
     bool canMove = true;
     bool canRotate = true;
+    bool canBeHit = true;
     [Space(15)]
 
     //Stamina
@@ -62,6 +64,8 @@ public class FightAgent : Agent
 
     [HideInInspector] public GameObject closestCharacter;
 
+    [HideInInspector] public bool episodeBegin = false;
+
     private void Awake()
     {
         animator = GetComponent<Animator>();
@@ -69,6 +73,8 @@ public class FightAgent : Agent
         attackArea = GameObject.Find("AttackArea").GetComponent<AttackArea>();
 
         attackArea.gameObject.active = false;
+
+        randomSpawn = GetComponent<RandomSpawning>();
     }
     private void Start()
     {
@@ -85,18 +91,27 @@ public class FightAgent : Agent
         HasKilled(attackArea.hasKilled);
         attackArea.hasHit = false;
         attackArea.hasKilled = false;
+
+        if(health <= 0)
+        {
+            IsDead();
+        }
     }
 
     public override void OnEpisodeBegin()
     {
         // Random spawning
-        MoveToSafeRandomPosition();
+        randomSpawn.MoveToSafeRandomPosition(xMinValueSpawning, xMaxValueSpawning, zMinValueSpawning, zMaxValueSpawning);
+        transform.localPosition = randomSpawn.localPosition;
+        transform.localRotation = randomSpawn.localRotation;
 
         health = initialHealth;
 
         stamina.staminaValue = 1.00666f;
 
         env.AddAgent();
+
+        episodeBegin = true;
     }
 
     public override void CollectObservations(VectorSensor sensor)
@@ -217,12 +232,13 @@ public class FightAgent : Agent
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("SwordHit"))
+        if (other.CompareTag("SwordHit") && canBeHit)
         {
             if(isBlocking == false)
             {
                 TakingDamage();
                 attackArea.gameObject.active = false;
+                StartCoroutine(canBeHitDelay());
             }
         }
         else if (other.CompareTag("SwordHit") && isBlocking)
@@ -262,29 +278,6 @@ public class FightAgent : Agent
         animator.SetBool("isBlocking", isBlocking);
     }
 
-    private void MoveToSafeRandomPosition()
-    {
-        bool safePositionFound = false;
-        int attemptsRemaining = 100;    //Prevent an infinite loop
-        Vector3 potentialPosition = Vector3.zero;
-        Quaternion potentialRotation = new Quaternion();
-
-        while(!safePositionFound && attemptsRemaining > 0)
-        {
-            potentialPosition = new Vector3(UnityEngine.Random.Range(xMinValueSpawning, xMaxValueSpawning), 0f, UnityEngine.Random.Range(zMinValueSpawning, zMaxValueSpawning));
-
-            float yaw = UnityEngine.Random.Range(-180f, 180f);
-            potentialRotation = Quaternion.Euler(0f, yaw, 0f);
-
-            Collider[] collider = Physics.OverlapSphere(potentialPosition, 0.05f);
-
-            safePositionFound = collider.Length == 0;
-        }
-
-        transform.localPosition = potentialPosition;
-        transform.localRotation = potentialRotation;
-    }
-
     /// <summary>
     /// Called when the agent attacks
     /// </summary>
@@ -321,6 +314,12 @@ public class FightAgent : Agent
         yield return canBlock = true;
     }
 
+    IEnumerator canBeHitDelay()
+    {
+        yield return new WaitForSeconds(0.7f);
+        yield return canBeHit = true;
+    }
+
     /// <summary>
     /// Called when the agent is blocking
     /// </summary>
@@ -350,7 +349,11 @@ public class FightAgent : Agent
             health = 0f;
             IsDead();
         }
-        else health -= damage;
+        else
+        {
+            health -= damage;
+            canBeHit = false;
+        }
     }
 
     /// <summary>

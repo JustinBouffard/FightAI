@@ -7,41 +7,100 @@ using UnityEngine.AI;
 
 public class NPC_Fighter : MonoBehaviour
 {
+    // Script variables
+    [Header("Script Variables")]
     [SerializeField] private Env env;
+    [SerializeField] private FightAgent fightAgent;
+    private Animator animator;
+    private RandomSpawning randomSpawn;
+    [Space(15f)]
 
     private GameObject closestCharacter;
 
-    private Animator animator;
-
-    private AttackArea attackArea;
-
     //Attacking
+    [Header("Attacking")]
     [SerializeField] private float timeBetweenAttacks;
+    [HideInInspector] public bool attacking;
     private bool alreadyAttacked;
+    [Space(15f)]
 
     //States
+    [Header("States")]
     [SerializeField] private float sightRange, attackRange;
     [SerializeField] private float speed;
+    [Space(15f)]
+
+    //Health
+    [Header("Health")]
+    [SerializeField] private int numOfHits;
+    public float health = 1.0f;
+    private float damage;
+    private bool canBeHit = true;
+    [Space(15f)]
+
+    //Random Spawning
+    [Header("Random Spawning")]
+    [SerializeField] private float xMinValueSpawning;
+    [SerializeField] private float xMaxValueSpawning;
+    [SerializeField] private float zMinValueSpawning;
+    [SerializeField] private float zMaxValueSpawning;
 
     private void Awake()
     {
         animator = GetComponent<Animator>();
 
-        attackArea = GameObject.Find("AttackArea").GetComponent<AttackArea>();
+        randomSpawn = GetComponent<RandomSpawning>();
+    }
+
+    private void Start()
+    {
+        animator.Play(name = "Sword And Shield Slash");
+        damage = health / numOfHits;
     }
 
     // Put GetToClosestAgent in the fixed update
     private void FixedUpdate()
     {
         closestCharacter = env.GetClosestCharacter(env.characters, transform.localPosition);
+        transform.LookAt(closestCharacter.transform);
 
-        if(closestCharacter != null)
+        if (closestCharacter != null)
         {
             float dist = Vector3.Distance(transform.position, closestCharacter.transform.position);
 
             if (dist <= sightRange && dist > attackRange) ChasePlayer();
             else if (dist <= sightRange && dist <= attackRange) AttackPlayer();
         }
+
+        if (fightAgent.episodeBegin)
+        {
+            env.AddAgent();
+            health = 1f;
+            fightAgent.episodeBegin = false;
+
+            randomSpawn.MoveToSafeRandomPosition(xMinValueSpawning, xMaxValueSpawning, zMinValueSpawning, zMaxValueSpawning);
+            transform.localPosition = randomSpawn.localPosition;
+            transform.localRotation = randomSpawn.localRotation;
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("SwordHit") && canBeHit)
+        {
+            TakingDamage();
+            StartCoroutine(canBeHitDelay());
+        }
+    }
+
+    private void TakingDamage()
+    {
+        if (health > damage)
+        {
+            health -= damage;
+            canBeHit = false;
+        }
+        else env.AgentsCount--;
     }
 
     private void ChasePlayer()
@@ -52,21 +111,27 @@ public class NPC_Fighter : MonoBehaviour
     private void AttackPlayer()
     {
         // Make sure the npc doesn't move
-        //transform.position = Vector3.MoveTowards(transform.position, closestCharacter.transform.position, speed);
 
         transform.LookAt(closestCharacter.transform);
 
         if(!alreadyAttacked)
         {
-            animator.Play(name = "Sword And Shield Slash");
+            animator.Play(name = "Sword And Shield Slash 0");
 
             alreadyAttacked = true;
-            Invoke(nameof(ResetAttack), timeBetweenAttacks);
+            StartCoroutine(AttackDelay());
         }
     }
 
-    private void ResetAttack()
+    IEnumerator AttackDelay()
     {
-        alreadyAttacked = false;
+        yield return new WaitForSeconds(timeBetweenAttacks);
+        yield return alreadyAttacked = false;
+    }
+
+    IEnumerator canBeHitDelay()
+    {
+        yield return new WaitForSeconds(0.7f);
+        yield return canBeHit = true;
     }
 }
