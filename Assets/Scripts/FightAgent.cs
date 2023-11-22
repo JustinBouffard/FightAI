@@ -206,10 +206,10 @@ public class FightAgent : Agent
 
         if (env.AgentsCount <= 1) EndEpisode();
 
-        if (stamina.staminaValue <= stamina.attackStaminaCost || stamina.staminaValue <= stamina.blockStaminaCost) AddReward(-0.4f);
+      // if (stamina.staminaValue <= stamina.attackStaminaCost || stamina.staminaValue <= stamina.blockStaminaCost) //AddReward(-0.2f);
 
         // Check to change for greater value for motivating the AI to kill more rapidly
-        AddReward(-0.1f);
+       // AddReward(-0.1f);
     }
 
     public override void Heuristic(in ActionBuffers actionsOut)
@@ -381,7 +381,7 @@ public class FightAgent : Agent
         if(hasHit)
         {
             hasHit = false;
-            AddReward(0.5f);
+            AddReward(1f);
         }
     }
 

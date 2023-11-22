@@ -58,7 +58,6 @@ public class NPC_Fighter : MonoBehaviour
         damage = health / numOfHits;
     }
 
-    // Put GetToClosestAgent in the fixed update
     private void FixedUpdate()
     {
         closestCharacter = env.GetClosestCharacter(env.characters, transform.localPosition);
@@ -74,9 +73,9 @@ public class NPC_Fighter : MonoBehaviour
 
         if (fightAgent.episodeBegin)
         {
+            fightAgent.episodeBegin = false;
             env.AddAgent();
             health = 1f;
-            fightAgent.episodeBegin = false;
 
             randomSpawn.MoveToSafeRandomPosition(xMinValueSpawning, xMaxValueSpawning, zMinValueSpawning, zMaxValueSpawning);
             transform.localPosition = randomSpawn.localPosition;
@@ -120,6 +119,8 @@ public class NPC_Fighter : MonoBehaviour
             animator.Play(name = "Sword And Shield Slash 0");
 
             alreadyAttacked = true;
+
+            StartCoroutine(isAttackingDelay());
             StartCoroutine(AttackDelay());
         }
     }
@@ -133,7 +134,12 @@ public class NPC_Fighter : MonoBehaviour
     IEnumerator canBeHitDelay()
     {
         yield return new WaitForSeconds(0.7f);
-        yield return isAttacking = false;
         yield return canBeHit = true;
+    }
+
+    IEnumerator isAttackingDelay()
+    {
+        yield return new WaitForSeconds(0.7f);
+        yield return isAttacking = false;
     }
 }

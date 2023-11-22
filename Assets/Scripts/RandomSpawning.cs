@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class RandomSpawning : MonoBehaviour
 {
-    public Vector3 localPosition;
-    public Quaternion localRotation;
+    [HideInInspector] public Vector3 localPosition;
+    [HideInInspector] public Quaternion localRotation;
 
     public void MoveToSafeRandomPosition(float xMinValueSpawning, float xMaxValueSpawning, float zMinValueSpawning,
         float zMaxValueSpawning)

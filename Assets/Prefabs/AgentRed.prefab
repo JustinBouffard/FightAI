@@ -503,7 +503,7 @@ Transform:
   m_Children:
   - {fileID: 8814052681899043748}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6341556918996271940
 GameObject:
@@ -1368,12 +1368,12 @@ MonoBehaviour:
   zMinValueSpawning: 0.5
   xMaxValueSpawning: 10
   xMinValueSpawning: 5
-  allySwordHitTag: RedSwordHit
   env: {fileID: 0}
   isAttacking: 0
   isBlocking: 0
   stamina: {fileID: 3959956883117127394}
-  closestAgent: {fileID: 0}
+  closestCharacter: {fileID: 0}
+  episodeBegin: 0
 --- !u!114 &5554213086982133208
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1420,7 +1420,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_SensorName: RedAgentPerceptionSensor
-  m_DetectableTags: []
+  m_DetectableTags:
+  - RedAgent
+  - BlueAgent
+  - DummyAgent
   m_RaysPerDirection: 6
   m_MaxRayDegrees: 70
   m_SphereCastRadius: 0.6

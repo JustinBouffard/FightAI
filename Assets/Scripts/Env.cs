@@ -23,6 +23,7 @@ public class Env : MonoBehaviour
     void Update()
     {
         if (AgentsCount <= 1) AgentsCount = 0;
+        else if (AgentsCount > 2) AgentsCount = 2;
     }
 
     public void AddAgent()
