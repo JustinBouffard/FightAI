@@ -11,6 +11,7 @@ public class NPC_Fighter : MonoBehaviour
     [Header("Script Variables")]
     [SerializeField] private Env env;
     [SerializeField] private FightAgent fightAgent;
+    [SerializeField] private AttackArea attackArea;
     private Animator animator;
     private RandomSpawning randomSpawn;
     [Space(15f)]
@@ -34,7 +35,7 @@ public class NPC_Fighter : MonoBehaviour
     [Header("Health")]
     [SerializeField] private int numOfHits;
     public float health = 1.0f;
-    private float damage;
+    [HideInInspector] public float damage;
     private bool canBeHit = true;
     [Space(15f)]
 
@@ -56,6 +57,8 @@ public class NPC_Fighter : MonoBehaviour
     {
         animator.Play(name = "Sword And Shield Slash");
         damage = health / numOfHits;
+
+        attackArea.gameObject.active = false;
     }
 
     private void FixedUpdate()
@@ -85,10 +88,13 @@ public class NPC_Fighter : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("SwordHit") && canBeHit)
+        if (other.CompareTag("SwordHit"))
         {
-            TakingDamage();
-            StartCoroutine(canBeHitDelay());
+            if(canBeHit)
+            {
+                TakingDamage();
+                StartCoroutine(canBeHitDelay());
+            }
         }
     }
 
@@ -116,7 +122,9 @@ public class NPC_Fighter : MonoBehaviour
         if(!alreadyAttacked)
         {
             isAttacking = true;
+
             animator.Play(name = "Sword And Shield Slash 0");
+            attackArea.gameObject.active = true;
 
             alreadyAttacked = true;
 
@@ -124,6 +132,16 @@ public class NPC_Fighter : MonoBehaviour
             StartCoroutine(AttackDelay());
         }
     }
+
+    private void HasKilled(bool hasKilled)
+    {
+        if (hasKilled)
+        {
+            hasKilled = false;
+            env.AgentsCount--;
+        }
+    }
+
 
     IEnumerator AttackDelay()
     {
@@ -140,6 +158,7 @@ public class NPC_Fighter : MonoBehaviour
     IEnumerator isAttackingDelay()
     {
         yield return new WaitForSeconds(0.7f);
+        yield return attackArea.gameObject.active = false;
         yield return isAttacking = false;
     }
 }

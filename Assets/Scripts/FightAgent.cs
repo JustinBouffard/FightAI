@@ -98,6 +98,12 @@ public class FightAgent : Agent
         }
     }
 
+    private void FixedUpdate()
+    {
+        // Existence reward
+        //AddReward(-0.004f);
+    }
+
     public override void OnEpisodeBegin()
     {
         // Random spawning
@@ -206,10 +212,10 @@ public class FightAgent : Agent
 
         if (env.AgentsCount <= 1) EndEpisode();
 
-      // if (stamina.staminaValue <= stamina.attackStaminaCost || stamina.staminaValue <= stamina.blockStaminaCost) //AddReward(-0.2f);
+        if (stamina.staminaValue <= stamina.attackStaminaCost || stamina.staminaValue <= stamina.blockStaminaCost) AddReward(-0.2f);
 
         // Check to change for greater value for motivating the AI to kill more rapidly
-       // AddReward(-0.1f);
+        //AddReward(-0.1f);
     }
 
     public override void Heuristic(in ActionBuffers actionsOut)
@@ -234,18 +240,18 @@ public class FightAgent : Agent
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("SwordHit") && canBeHit)
+        if (other.CompareTag("SwordHit"))
         {
-            if(isBlocking == false)
+            if(!isBlocking && canBeHit)
             {
                 TakingDamage();
                 attackArea.gameObject.active = false;
                 StartCoroutine(canBeHitDelay());
             }
         }
-        else if (other.CompareTag("SwordHit") && isBlocking)
+        else if (other.CompareTag("SwordHit"))
         {
-            AddReward(0.8f);
+            if(isBlocking)  AddReward(0.6f);
         }
     }
 
@@ -353,6 +359,7 @@ public class FightAgent : Agent
         }
         else
         {
+            AddReward(-0.5f);
             health -= damage;
             canBeHit = false;
         }
@@ -381,7 +388,7 @@ public class FightAgent : Agent
         if(hasHit)
         {
             hasHit = false;
-            AddReward(1f);
+            AddReward(0.7f);
         }
     }
 

@@ -23,9 +23,20 @@ public class AttackArea : MonoBehaviour
 
         if(character.GetComponent<FightAgent>() != null)
         {
-            if(character.CompareTag("SwordHit") && !character.GetComponent<FightAgent>().isBlocking)
+            if(character.CompareTag("SwordHit"))
             {
-                if (other.GetComponent<FightAgent>().health <= other.GetComponent<FightAgent>().damage) hasKilled = true;
+                if(!character.GetComponent<FightAgent>().isBlocking)
+                {
+                    if (other.GetComponent<FightAgent>().health <= other.GetComponent<FightAgent>().damage) hasKilled = true;
+                    else hasHit = true;
+                }
+            }
+        }
+        else if (character.GetComponent<NPC_Fighter>() != null)
+        {
+            if (character.CompareTag("SwordHit"))
+            {
+                if (other.GetComponent<NPC_Fighter>().health <= other.GetComponent<NPC_Fighter>().damage) hasKilled = true;
                 else hasHit = true;
             }
         }
