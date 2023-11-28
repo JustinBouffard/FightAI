@@ -212,10 +212,7 @@ public class FightAgent : Agent
 
         if (env.AgentsCount <= 1) EndEpisode();
 
-        if (stamina.staminaValue <= stamina.attackStaminaCost || stamina.staminaValue <= stamina.blockStaminaCost) AddReward(-0.2f);
-
-        // Check to change for greater value for motivating the AI to kill more rapidly
-        //AddReward(-0.1f);
+        if (stamina.staminaValue <= stamina.attackStaminaCost || stamina.staminaValue <= stamina.blockStaminaCost) AddReward(-0.1f);
     }
 
     public override void Heuristic(in ActionBuffers actionsOut)
@@ -251,7 +248,7 @@ public class FightAgent : Agent
         }
         else if (other.CompareTag("SwordHit"))
         {
-            if(isBlocking)  AddReward(0.6f);
+            if(isBlocking)  AddReward(0.15f);
         }
     }
 
@@ -359,7 +356,7 @@ public class FightAgent : Agent
         }
         else
         {
-            AddReward(-0.5f);
+            AddReward(-0.15f);
             health -= damage;
             canBeHit = false;
         }
@@ -388,7 +385,7 @@ public class FightAgent : Agent
         if(hasHit)
         {
             hasHit = false;
-            AddReward(0.7f);
+            AddReward(0.50f);
         }
     }
 

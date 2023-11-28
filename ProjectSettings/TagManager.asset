@@ -14,6 +14,7 @@ TagManager:
   - IsBlocking
   - DummyAgent
   - SwordHit
+  - BlueSwordHit
   layers:
   - Default
   - TransparentFX

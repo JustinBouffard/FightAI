@@ -84,11 +84,13 @@ public class NPC_Fighter : MonoBehaviour
             transform.localPosition = randomSpawn.localPosition;
             transform.localRotation = randomSpawn.localRotation;
         }
+
+        HasKilled(attackArea.hasKilled);
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("SwordHit"))
+        if (other.CompareTag("BlueSwordHitBlueSwordHit"))
         {
             if(canBeHit)
             {
