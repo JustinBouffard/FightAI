@@ -90,7 +90,7 @@ public class NPC_Fighter : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("BlueSwordHitBlueSwordHit"))
+        if (other.CompareTag("BlueSwordHit"))
         {
             if(canBeHit)
             {

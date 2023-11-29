@@ -31,6 +31,7 @@ public class FightAgent : Agent
 
     // Random spawning
     [Header("Random Spawning")]
+    [SerializeField] float AreaDiameter;
     [SerializeField] float zMaxValueSpawning;
     [SerializeField] float zMinValueSpawning;
     [SerializeField] float xMaxValueSpawning;
@@ -135,8 +136,12 @@ public class FightAgent : Agent
             {
                 FightAgent agent = closestCharacter.GetComponent<FightAgent>();
 
+                Vector3 toClosestEnemy = agent.transform.position - transform.position;
+
+                sensor.AddObservation(toClosestEnemy.normalized);
                 sensor.AddObservation(agent.transform.localRotation.normalized);
-                sensor.AddObservation(agent.transform.localPosition.normalized);
+                sensor.AddObservation(Vector3.Dot(transform.right.normalized, -agent.transform.up.normalized));
+              //  sensor.AddObservation(toClosestEnemy.magnitude / AreaDiameter);
                 sensor.AddObservation(agent.isAttacking);
                 sensor.AddObservation(agent.isBlocking);
             }
@@ -144,16 +149,22 @@ public class FightAgent : Agent
             {
                 NPC_Fighter npc = closestCharacter.GetComponent <NPC_Fighter>();
 
+                Vector3 toClosestEnemy = npc.transform.position - transform.position;
+
+                sensor.AddObservation(toClosestEnemy.normalized);
                 sensor.AddObservation(npc.transform.localRotation.normalized);
-                sensor.AddObservation(npc.transform.localPosition.normalized);
+                sensor.AddObservation(Vector3.Dot(transform.right.normalized, -npc.transform.up.normalized));
+                //sensor.AddObservation(toClosestEnemy.magnitude / AreaDiameter);
                 sensor.AddObservation(npc.isAttacking);
                 sensor.AddObservation(false);
             }
         }
         else
         {
-            sensor.AddObservation(new Quaternion().normalized);
-            sensor.AddObservation(new Vector3().normalized);
+            sensor.AddObservation(Vector3.zero.normalized);
+            sensor.AddObservation(Quaternion.Euler(0, 0, 0));
+            sensor.AddObservation(0f);
+          //  sensor.AddObservation(0f);
             sensor.AddObservation(false);
             sensor.AddObservation(false);
         }
@@ -212,7 +223,7 @@ public class FightAgent : Agent
 
         if (env.AgentsCount <= 1) EndEpisode();
 
-        if (stamina.staminaValue <= stamina.attackStaminaCost || stamina.staminaValue <= stamina.blockStaminaCost) AddReward(-0.1f);
+        if (stamina.staminaValue <= stamina.attackStaminaCost || stamina.staminaValue <= stamina.blockStaminaCost) AddReward(-0.30f);
     }
 
     public override void Heuristic(in ActionBuffers actionsOut)
@@ -248,7 +259,7 @@ public class FightAgent : Agent
         }
         else if (other.CompareTag("SwordHit"))
         {
-            if(isBlocking)  AddReward(0.15f);
+            if(isBlocking)  AddReward(0.50f);
         }
     }
 
@@ -356,7 +367,7 @@ public class FightAgent : Agent
         }
         else
         {
-            AddReward(-0.15f);
+            AddReward(-0.05f);
             health -= damage;
             canBeHit = false;
         }
