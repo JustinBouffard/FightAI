@@ -1,2 +1,2 @@
 # FightAI
-AI that can fight itself developped in Unity with Ml-Agent
+AI being developped for video game fighting
