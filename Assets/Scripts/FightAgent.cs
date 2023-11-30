@@ -67,6 +67,9 @@ public class FightAgent : Agent
 
     [HideInInspector] public bool episodeBegin = false;
 
+    private int blockAction = -1;
+    bool isInFrontOf = false;
+
     private void Awake()
     {
         animator = GetComponent<Animator>();
@@ -97,12 +100,11 @@ public class FightAgent : Agent
         {
             IsDead();
         }
-    }
 
-    private void FixedUpdate()
-    {
-        // Existence reward
-        //AddReward(-0.004f);
+        if (Input.GetKeyUp(KeyCode.E)) blockAction = -1;
+        else if (Input.GetKeyDown(KeyCode.E)) blockAction = 1;
+
+        isInFrontOf = IsInFrontOf();
     }
 
     public override void OnEpisodeBegin()
@@ -127,7 +129,7 @@ public class FightAgent : Agent
         sensor.AddObservation(transform.localPosition.normalized);
         sensor.AddObservation(isAttacking);
         sensor.AddObservation(isBlocking);
-        sensor.AddObservation(stamina.staminaValue);
+        sensor.AddObservation(Mathf.Clamp(stamina.staminaValue, 0, 1));
 
         // DONT FORGET OBS FOR THE NPC  
         if(closestCharacter != null)
@@ -140,8 +142,8 @@ public class FightAgent : Agent
 
                 sensor.AddObservation(toClosestEnemy.normalized);
                 sensor.AddObservation(agent.transform.localRotation.normalized);
-                sensor.AddObservation(Vector3.Dot(transform.right.normalized, -agent.transform.up.normalized));
-              //  sensor.AddObservation(toClosestEnemy.magnitude / AreaDiameter);
+                sensor.AddObservation(isInFrontOf);
+                sensor.AddObservation(toClosestEnemy.magnitude / AreaDiameter);
                 sensor.AddObservation(agent.isAttacking);
                 sensor.AddObservation(agent.isBlocking);
             }
@@ -153,8 +155,8 @@ public class FightAgent : Agent
 
                 sensor.AddObservation(toClosestEnemy.normalized);
                 sensor.AddObservation(npc.transform.localRotation.normalized);
-                sensor.AddObservation(Vector3.Dot(transform.right.normalized, -npc.transform.up.normalized));
-                //sensor.AddObservation(toClosestEnemy.magnitude / AreaDiameter);
+                sensor.AddObservation(isInFrontOf);
+                sensor.AddObservation(toClosestEnemy.magnitude / AreaDiameter);
                 sensor.AddObservation(npc.isAttacking);
                 sensor.AddObservation(false);
             }
@@ -164,7 +166,7 @@ public class FightAgent : Agent
             sensor.AddObservation(Vector3.zero.normalized);
             sensor.AddObservation(Quaternion.Euler(0, 0, 0));
             sensor.AddObservation(0f);
-          //  sensor.AddObservation(0f);
+            sensor.AddObservation(0f);
             sensor.AddObservation(false);
             sensor.AddObservation(false);
         }
@@ -183,11 +185,11 @@ public class FightAgent : Agent
     /// <param name="actions"></param>
     public override void OnActionReceived(ActionBuffers actions)
     {
-        float moveX = actions.DiscreteActions[0];
-        float moveZ = actions.DiscreteActions[1];
-        float yawRotation = actions.DiscreteActions[2];
-        bool attack = actions.DiscreteActions[3] > 0;
-        bool block = actions.DiscreteActions[4] > 0;
+        float moveX = actions.ContinuousActions[0];
+        float moveZ = actions.ContinuousActions[1];
+        float yawRotation = actions.ContinuousActions[2];
+        bool attack = actions.DiscreteActions[0] > 0;
+        bool block = actions.DiscreteActions[1] > 0;
 
         // Moving
         Vector3 movement = new Vector3(moveX, 0f, moveZ);
@@ -228,22 +230,24 @@ public class FightAgent : Agent
 
     public override void Heuristic(in ActionBuffers actionsOut)
     {
+        ActionSegment<float> continuousActions = actionsOut.ContinuousActions;
         ActionSegment<int> discreteActions = actionsOut.DiscreteActions;
 
         // Moving
         if(canMove)
         {
-            discreteActions[0] = ((int)Input.GetAxisRaw("Horizontal"));
-            discreteActions[1] = ((int)Input.GetAxisRaw("Vertical"));
+            continuousActions[0] = ((int)Input.GetAxisRaw("Horizontal"));
+            continuousActions[1] = ((int)Input.GetAxisRaw("Vertical"));
         }
 
         // Rotation
-        if (Input.GetKey(KeyCode.B)) discreteActions[2] = -1;
-        else if (Input.GetKey(KeyCode.M)) discreteActions[2] = 1;
+        if (Input.GetKey(KeyCode.B)) continuousActions[2] = -1;
+        else if (Input.GetKey(KeyCode.M)) continuousActions[2] = 1;
 
         // Attack and block
-        if (Input.GetKey(KeyCode.R)) discreteActions[3] = 1;
-        else if(Input.GetKey(KeyCode.E)) discreteActions[4] = 1;
+        if (Input.GetKey(KeyCode.R)) discreteActions[0] = 1;
+
+        discreteActions[1] = blockAction;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -408,6 +412,22 @@ public class FightAgent : Agent
         AddReward(-1f);
 
         env.AgentsCount--;
+    }
+
+    private bool IsInFrontOf()
+    {
+        RaycastHit hit;
+
+        Ray ray = new Ray(transform.position, transform.forward);
+        Physics.SphereCast(ray, 1f, out hit, Mathf.Infinity);
+
+        if(hit.collider != null)
+        {
+            if (hit.collider.CompareTag("DummyAgent") || hit.collider.CompareTag("BlueAgent") || hit.collider.CompareTag("RedAgent")) return true;
+            else return false;
+        }
+
+        return false;
     }
 }
 
