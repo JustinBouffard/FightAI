@@ -143,7 +143,7 @@ public class FightAgent : Agent
                 sensor.AddObservation(toClosestEnemy.normalized);
                 sensor.AddObservation(agent.transform.localRotation.normalized);
                 sensor.AddObservation(isInFrontOf);
-                sensor.AddObservation(toClosestEnemy.magnitude / AreaDiameter);
+                //sensor.AddObservation(toClosestEnemy.magnitude / AreaDiameter);
                 sensor.AddObservation(agent.isAttacking);
                 sensor.AddObservation(agent.isBlocking);
             }
@@ -156,7 +156,7 @@ public class FightAgent : Agent
                 sensor.AddObservation(toClosestEnemy.normalized);
                 sensor.AddObservation(npc.transform.localRotation.normalized);
                 sensor.AddObservation(isInFrontOf);
-                sensor.AddObservation(toClosestEnemy.magnitude / AreaDiameter);
+                //s/ensor.AddObservation(toClosestEnemy.magnitude / AreaDiameter);
                 sensor.AddObservation(npc.isAttacking);
                 sensor.AddObservation(false);
             }
@@ -166,7 +166,7 @@ public class FightAgent : Agent
             sensor.AddObservation(Vector3.zero.normalized);
             sensor.AddObservation(Quaternion.Euler(0, 0, 0));
             sensor.AddObservation(0f);
-            sensor.AddObservation(0f);
+           // sensor.AddObservation(0f);
             sensor.AddObservation(false);
             sensor.AddObservation(false);
         }
@@ -419,7 +419,7 @@ public class FightAgent : Agent
         RaycastHit hit;
 
         Ray ray = new Ray(transform.position, transform.forward);
-        Physics.SphereCast(ray, 1f, out hit, Mathf.Infinity);
+        Physics.SphereCast(ray, 0.5f, out hit, Mathf.Infinity);
 
         if(hit.collider != null)
         {

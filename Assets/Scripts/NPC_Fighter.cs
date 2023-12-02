@@ -112,7 +112,7 @@ public class NPC_Fighter : MonoBehaviour
 
     private void ChasePlayer()
     {
-        if (closestCharacter != null) transform.position = Vector3.MoveTowards(transform.position, closestCharacter.transform.position, speed);
+        if (closestCharacter != null && speed != 0) transform.position = Vector3.MoveTowards(transform.position, closestCharacter.transform.position, speed);
     }
 
     private void AttackPlayer()
@@ -121,7 +121,7 @@ public class NPC_Fighter : MonoBehaviour
 
         transform.LookAt(closestCharacter.transform);
 
-        if(!alreadyAttacked)
+        if(!alreadyAttacked && timeBetweenAttacks != 0)
         {
             isAttacking = true;
 
