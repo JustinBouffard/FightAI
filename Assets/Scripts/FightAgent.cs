@@ -225,7 +225,7 @@ public class FightAgent : Agent
 
         if (env.AgentsCount <= 1) EndEpisode();
 
-        if (stamina.staminaValue <= stamina.attackStaminaCost || stamina.staminaValue <= stamina.blockStaminaCost) AddReward(-0.30f);
+        if (stamina.staminaValue <= stamina.attackStaminaCost || stamina.staminaValue <= stamina.blockStaminaCost) AddReward(-0.50f);
     }
 
     public override void Heuristic(in ActionBuffers actionsOut)
@@ -263,7 +263,7 @@ public class FightAgent : Agent
         }
         else if (other.CompareTag("SwordHit"))
         {
-            if(isBlocking)  AddReward(0.50f);
+            if(isBlocking)  AddReward(0.80f);
         }
     }
 
@@ -371,7 +371,7 @@ public class FightAgent : Agent
         }
         else
         {
-            AddReward(-0.05f);
+            AddReward(-0.25f);
             health -= damage;
             canBeHit = false;
         }
@@ -400,7 +400,7 @@ public class FightAgent : Agent
         if(hasHit)
         {
             hasHit = false;
-            AddReward(0.50f);
+            AddReward(0.80f);
         }
     }
 
