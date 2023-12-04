@@ -143,7 +143,6 @@ public class FightAgent : Agent
                 sensor.AddObservation(toClosestEnemy.normalized);
                 sensor.AddObservation(agent.transform.localRotation.normalized);
                 sensor.AddObservation(isInFrontOf);
-                //sensor.AddObservation(toClosestEnemy.magnitude / AreaDiameter);
                 sensor.AddObservation(agent.isAttacking);
                 sensor.AddObservation(agent.isBlocking);
             }
@@ -156,7 +155,6 @@ public class FightAgent : Agent
                 sensor.AddObservation(toClosestEnemy.normalized);
                 sensor.AddObservation(npc.transform.localRotation.normalized);
                 sensor.AddObservation(isInFrontOf);
-                //s/ensor.AddObservation(toClosestEnemy.magnitude / AreaDiameter);
                 sensor.AddObservation(npc.isAttacking);
                 sensor.AddObservation(false);
             }
@@ -166,7 +164,6 @@ public class FightAgent : Agent
             sensor.AddObservation(Vector3.zero.normalized);
             sensor.AddObservation(Quaternion.Euler(0, 0, 0));
             sensor.AddObservation(0f);
-           // sensor.AddObservation(0f);
             sensor.AddObservation(false);
             sensor.AddObservation(false);
         }
@@ -188,8 +185,8 @@ public class FightAgent : Agent
         float moveX = actions.ContinuousActions[0];
         float moveZ = actions.ContinuousActions[1];
         float yawRotation = actions.ContinuousActions[2];
-        bool attack = actions.DiscreteActions[0] > 0;
-        bool block = actions.DiscreteActions[1] > 0;
+        bool attack = actions.ContinuousActions[3] > 0;
+        bool block = actions.ContinuousActions[4] > 0;
 
         // Moving
         Vector3 movement = new Vector3(moveX, 0f, moveZ);
@@ -226,6 +223,8 @@ public class FightAgent : Agent
         if (env.AgentsCount <= 1) EndEpisode();
 
         if (stamina.staminaValue <= stamina.attackStaminaCost || stamina.staminaValue <= stamina.blockStaminaCost) AddReward(-0.50f);
+
+        AddReward(-1 / MaxStep);
     }
 
     public override void Heuristic(in ActionBuffers actionsOut)
@@ -245,9 +244,9 @@ public class FightAgent : Agent
         else if (Input.GetKey(KeyCode.M)) continuousActions[2] = 1;
 
         // Attack and block
-        if (Input.GetKey(KeyCode.R)) discreteActions[0] = 1;
+        if (Input.GetKey(KeyCode.R)) continuousActions[3] = 1;
 
-        discreteActions[1] = blockAction;
+        continuousActions[4] = blockAction;
     }
 
     private void OnTriggerEnter(Collider other)
