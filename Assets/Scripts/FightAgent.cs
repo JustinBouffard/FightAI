@@ -293,7 +293,7 @@ public class FightAgent : Agent
         if (collision.gameObject.CompareTag("Bound"))
         {
             env.AgentsCount--;
-            AddReward(-3f);
+            AddReward(-6f);
         }
         else if (collision.gameObject.CompareTag("Bottom")) env.AgentsCount--;
     }
