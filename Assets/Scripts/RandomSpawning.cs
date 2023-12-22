@@ -1,11 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
 
 public class RandomSpawning : MonoBehaviour
 {
     [HideInInspector] public Vector3 localPosition;
     [HideInInspector] public Quaternion localRotation;
+
+    [SerializeField] private Env env;
+
 
     public void MoveToSafeRandomPosition(float xMinValueSpawning, float xMaxValueSpawning, float zMinValueSpawning,
         float zMaxValueSpawning)
@@ -29,5 +33,6 @@ public class RandomSpawning : MonoBehaviour
 
         localPosition = potentialPosition;
         localRotation = potentialRotation;
+
     }
 }

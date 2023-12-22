@@ -10,6 +10,7 @@ using UnityEditor.Animations;
 using System.Runtime.CompilerServices;
 using System.Linq;
 using UnityEngine.WSA;
+using UnityEngine.PlayerLoop;
 
 public class FightAgent : Agent
 {
@@ -31,7 +32,6 @@ public class FightAgent : Agent
 
     // Random spawning
     [Header("Random Spawning")]
-    [SerializeField] float AreaDiameter;
     [SerializeField] float zMaxValueSpawning;
     [SerializeField] float zMinValueSpawning;
     [SerializeField] float xMaxValueSpawning;
@@ -48,6 +48,7 @@ public class FightAgent : Agent
 
     // Combat conditions
     [Header("Combat Conditions")]
+    [SerializeField] private float sphereCastRadius;
     [HideInInspector] public bool isAttacking;
     [HideInInspector] public bool isBlocking;
     bool canAttack = true;
@@ -70,6 +71,9 @@ public class FightAgent : Agent
     private int blockAction = -1;
     bool isInFrontOf = false;
 
+    Vector3 initalPosition;
+    Quaternion initalRotation;
+
     private void Awake()
     {
         animator = GetComponent<Animator>();
@@ -85,6 +89,9 @@ public class FightAgent : Agent
         initialHealth = health;
 
         damage = health / numOfHits;
+
+        initalPosition = transform.localPosition;
+        initalRotation = transform.localRotation;
     }
 
     private void Update()
@@ -110,9 +117,12 @@ public class FightAgent : Agent
     public override void OnEpisodeBegin()
     {
         // Random spawning
-        randomSpawn.MoveToSafeRandomPosition(xMinValueSpawning, xMaxValueSpawning, zMinValueSpawning, zMaxValueSpawning);
-        transform.localPosition = randomSpawn.localPosition;
-        transform.localRotation = randomSpawn.localRotation;
+        //randomSpawn.MoveToSafeRandomPosition(xMinValueSpawning, xMaxValueSpawning, zMinValueSpawning, zMaxValueSpawning);
+        //transform.localPosition = randomSpawn.localPosition;
+        //transform.localRotation = randomSpawn.localRotation;
+
+        transform.localPosition = initalPosition;
+        transform.localRotation = initalRotation;
 
         health = initialHealth;
 
@@ -129,7 +139,7 @@ public class FightAgent : Agent
         sensor.AddObservation(transform.localPosition.normalized);
         sensor.AddObservation(isAttacking);
         sensor.AddObservation(isBlocking);
-        sensor.AddObservation(Mathf.Clamp(stamina.staminaValue, 0, 1));
+        sensor.AddObservation(Mathf.Clamp(stamina.staminaValue, 0f, 1f));
 
         // DONT FORGET OBS FOR THE NPC  
         if(closestCharacter != null)
@@ -138,9 +148,10 @@ public class FightAgent : Agent
             {
                 FightAgent agent = closestCharacter.GetComponent<FightAgent>();
 
-                Vector3 toClosestEnemy = agent.transform.position - transform.position;
+                Vector3 toClosestEnemy = agent.transform.localPosition - transform.localPosition;
 
                 sensor.AddObservation(toClosestEnemy.normalized);
+                sensor.AddObservation(agent.transform.localPosition.normalized);
                 sensor.AddObservation(agent.transform.localRotation.normalized);
                 sensor.AddObservation(isInFrontOf);
                 sensor.AddObservation(agent.isAttacking);
@@ -150,9 +161,10 @@ public class FightAgent : Agent
             {
                 NPC_Fighter npc = closestCharacter.GetComponent <NPC_Fighter>();
 
-                Vector3 toClosestEnemy = npc.transform.position - transform.position;
+                Vector3 toClosestEnemy = npc.transform.localPosition - transform.localPosition;
 
                 sensor.AddObservation(toClosestEnemy.normalized);
+                sensor.AddObservation(npc.transform.localPosition.normalized);
                 sensor.AddObservation(npc.transform.localRotation.normalized);
                 sensor.AddObservation(isInFrontOf);
                 sensor.AddObservation(npc.isAttacking);
@@ -161,6 +173,7 @@ public class FightAgent : Agent
         }
         else
         {
+            sensor.AddObservation(Vector3.zero.normalized);
             sensor.AddObservation(Vector3.zero.normalized);
             sensor.AddObservation(Quaternion.Euler(0, 0, 0));
             sensor.AddObservation(0f);
@@ -224,13 +237,21 @@ public class FightAgent : Agent
 
         if (stamina.staminaValue <= stamina.attackStaminaCost || stamina.staminaValue <= stamina.blockStaminaCost) AddReward(-0.50f);
 
-        AddReward(-1 / MaxStep);
+        //if (closestCharacter != null)
+        //{
+        //    if (Vector3.Distance(transform.position, closestCharacter.transform.position) <= 1.5f) AddReward(0.25f / MaxStep);
+        //}
+
+       // if (isInFrontOf) AddReward(0.25f / MaxStep);
+
+        //if (isInBackOf) AddReward(-0.5f / MaxStep);
+
+        AddReward(-1f / MaxStep);
     }
 
     public override void Heuristic(in ActionBuffers actionsOut)
     {
         ActionSegment<float> continuousActions = actionsOut.ContinuousActions;
-        ActionSegment<int> discreteActions = actionsOut.DiscreteActions;
 
         // Moving
         if(canMove)
@@ -262,7 +283,7 @@ public class FightAgent : Agent
         }
         else if (other.CompareTag("SwordHit"))
         {
-            if(isBlocking)  AddReward(0.80f);
+            if(isBlocking)  AddReward(0.5f);
         }
     }
 
@@ -271,8 +292,8 @@ public class FightAgent : Agent
 
         if (collision.gameObject.CompareTag("Bound"))
         {
-            AddReward(-1f);
             env.AgentsCount--;
+            AddReward(-3f);
         }
         else if (collision.gameObject.CompareTag("Bottom")) env.AgentsCount--;
     }
@@ -302,6 +323,9 @@ public class FightAgent : Agent
     /// </summary>
     private void Attack()
     {
+        if(closestCharacter != null) if(Vector3.Distance(transform.position, closestCharacter.transform.position) >= 1.5f)   AddReward(-0.10f);
+
+
         //Conditions
         canAttack = false;
         isBlocking = false;
@@ -366,11 +390,10 @@ public class FightAgent : Agent
         if (health <= damage)
         {
             health = 0f;
-            IsDead();
         }
         else
         {
-            AddReward(-0.25f);
+            AddReward(-0.50f);
             health -= damage;
             canBeHit = false;
         }
@@ -399,7 +422,7 @@ public class FightAgent : Agent
         if(hasHit)
         {
             hasHit = false;
-            AddReward(0.80f);
+            AddReward(0.5f);
         }
     }
 
@@ -408,8 +431,7 @@ public class FightAgent : Agent
     /// </summary>
     private void IsDead()
     {
-        AddReward(-1f);
-
+        AddReward(-2f);
         env.AgentsCount--;
     }
 
@@ -418,7 +440,7 @@ public class FightAgent : Agent
         RaycastHit hit;
 
         Ray ray = new Ray(transform.position, transform.forward);
-        Physics.SphereCast(ray, 0.5f, out hit, Mathf.Infinity);
+        Physics.SphereCast(ray, sphereCastRadius, out hit, Mathf.Infinity);
 
         if(hit.collider != null)
         {

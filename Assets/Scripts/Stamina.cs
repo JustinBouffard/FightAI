@@ -9,8 +9,8 @@ public class Stamina : MonoBehaviour
     [HideInInspector] public float staminaValue = 1.00666f;
     [SerializeField] float MaxSecondsGain;
     [SerializeField] float WaitSecondsStaminaGain;
-    [SerializeField] int MaxNumberOfAttacks;
-    [SerializeField] int MaxSecondsOfBlock;
+    [SerializeField] public int MaxNumberOfAttacks;
+    [SerializeField] public int MaxSecondsOfBlock;
 
     float initialStamina;
     float gainingStamina;
@@ -42,6 +42,7 @@ public class Stamina : MonoBehaviour
 
         // For the gaining stamina (stamina can't be more than initial stamina)
         initialStamina = staminaValue;
+
     }
 
     // Update is called once per frame

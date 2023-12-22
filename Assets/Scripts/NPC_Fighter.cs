@@ -46,6 +46,10 @@ public class NPC_Fighter : MonoBehaviour
     [SerializeField] private float zMinValueSpawning;
     [SerializeField] private float zMaxValueSpawning;
 
+    Vector3 initalPosition;
+
+    bool canChase = false;
+
     private void Awake()
     {
         animator = GetComponent<Animator>();
@@ -59,6 +63,8 @@ public class NPC_Fighter : MonoBehaviour
         damage = health / numOfHits;
 
         attackArea.gameObject.active = false;
+
+        initalPosition = transform.localPosition;
     }
 
     private void FixedUpdate()
@@ -77,12 +83,15 @@ public class NPC_Fighter : MonoBehaviour
         if (fightAgent.episodeBegin)
         {
             fightAgent.episodeBegin = false;
+            canChase = false;
             env.AddAgent();
             health = 1f;
 
-            randomSpawn.MoveToSafeRandomPosition(xMinValueSpawning, xMaxValueSpawning, zMinValueSpawning, zMaxValueSpawning);
-            transform.localPosition = randomSpawn.localPosition;
-            transform.localRotation = randomSpawn.localRotation;
+            transform.localPosition = initalPosition;
+
+            //randomSpawn.MoveToSafeRandomPosition(xMinValueSpawning, xMaxValueSpawning, zMinValueSpawning, zMaxValueSpawning);
+            //transform.localPosition = randomSpawn.localPosition;
+            //transform.localRotation = randomSpawn.localRotation;
         }
 
         HasKilled(attackArea.hasKilled);
@@ -112,7 +121,14 @@ public class NPC_Fighter : MonoBehaviour
 
     private void ChasePlayer()
     {
-        if (closestCharacter != null && speed != 0) transform.position = Vector3.MoveTowards(transform.position, closestCharacter.transform.position, speed);
+        if (!canChase)
+        {
+            StartCoroutine(ChaseDelay());
+        }
+        else if (canChase)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, closestCharacter.transform.position, speed);
+        }
     }
 
     private void AttackPlayer()
@@ -144,6 +160,11 @@ public class NPC_Fighter : MonoBehaviour
         }
     }
 
+    IEnumerator ChaseDelay()
+    {
+        yield return new WaitForSeconds(4f);
+        yield return canChase = true;
+    }
 
     IEnumerator AttackDelay()
     {
