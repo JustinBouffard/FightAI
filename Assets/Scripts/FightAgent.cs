@@ -6,10 +6,9 @@ using Unity.MLAgents.Actuators;
 using Unity.MLAgents.Sensors;
 using System.Threading.Tasks;
 using Unity.VisualScripting;
-using UnityEditor.Animations;
+
 using System.Runtime.CompilerServices;
 using System.Linq;
-using UnityEngine.WSA;
 using UnityEngine.PlayerLoop;
 
 public class FightAgent : Agent
