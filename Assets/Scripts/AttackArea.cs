@@ -23,7 +23,7 @@ public class AttackArea : MonoBehaviour
 
         if(character.GetComponent<FightAgent>() != null)
         {
-            if(character.CompareTag("SwordHit"))
+            if(character.CompareTag("BlueAgent"))
             {
                 if(!character.GetComponent<FightAgent>().isBlocking)
                 {
@@ -34,10 +34,13 @@ public class AttackArea : MonoBehaviour
         }
         else if (character.GetComponent<NPC_Fighter>() != null)
         {
-            if (character.CompareTag("SwordHit"))
+            if (character.CompareTag("DummyAgent"))
             {
-                if (other.GetComponent<NPC_Fighter>().health <= other.GetComponent<NPC_Fighter>().damage) hasKilled = true;
-                else hasHit = true;
+                if(!character.GetComponent<NPC_Fighter>().isProtected)
+                {
+                    if (other.GetComponent<NPC_Fighter>().health <= other.GetComponent<NPC_Fighter>().damage) hasKilled = true;
+                    else hasHit = true;
+                }
             }
         }
     }

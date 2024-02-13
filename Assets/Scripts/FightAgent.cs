@@ -42,7 +42,7 @@ public class FightAgent : Agent
     [Header("Scripts Variables")]
     [SerializeField] Env env;
     Animator animator;
-    AttackArea attackArea;
+    [SerializeField] AttackArea attackArea;
     RandomSpawning randomSpawn;
     [Space(15)]
 
@@ -74,11 +74,13 @@ public class FightAgent : Agent
     Vector3 initalPosition;
     Quaternion initalRotation;
 
+    bool hasHitCondition = false;
+
     private void Awake()
     {
         animator = GetComponent<Animator>();
 
-        attackArea = GameObject.Find("AttackArea").GetComponent<AttackArea>();
+        //attackArea = GameObject.Find("AttackArea").GetComponent<AttackArea>();
 
         attackArea.gameObject.active = false;
 
@@ -140,6 +142,7 @@ public class FightAgent : Agent
         sensor.AddObservation(isAttacking);
         sensor.AddObservation(isBlocking);
         sensor.AddObservation(Mathf.Clamp(stamina.staminaValue, 0f, 1f));
+        sensor.AddObservation(hasHitCondition);
 
         // DONT FORGET OBS FOR THE NPC  
         if(closestCharacter != null)
@@ -156,6 +159,7 @@ public class FightAgent : Agent
                 sensor.AddObservation(isInFrontOf);
                 sensor.AddObservation(agent.isAttacking);
                 sensor.AddObservation(agent.isBlocking);
+                sensor.AddObservation(agent.health);
             }
             else if(closestCharacter.GetComponent<NPC_Fighter>() != null)
             {
@@ -168,7 +172,8 @@ public class FightAgent : Agent
                 sensor.AddObservation(npc.transform.localRotation.normalized);
                 sensor.AddObservation(isInFrontOf);
                 sensor.AddObservation(npc.isAttacking);
-                sensor.AddObservation(false);
+                sensor.AddObservation(npc.isProtected);
+                sensor.AddObservation(npc.health);
             }
         }
         else
@@ -179,6 +184,7 @@ public class FightAgent : Agent
             sensor.AddObservation(0f);
             sensor.AddObservation(false);
             sensor.AddObservation(false);
+            sensor.AddObservation(0f);
         }
     }
 
@@ -215,8 +221,11 @@ public class FightAgent : Agent
 
         if(canRotate)   transform.rotation = Quaternion.Euler(0f, yaw, 0f);
 
+        // Get the closest character to us
+        closestCharacter = env.GetClosestCharacter(env.characters, transform.localPosition);
+
         //Attacking
-        if (attack && canAttack && stamina.attackStaminaCost <= stamina.staminaValue)
+        if (attack && canAttack && stamina.attackStaminaCost <= stamina.staminaValue && Vector3.Distance(transform.position, closestCharacter.transform.position) <= 3f)
         {
             Attack();
             StartCoroutine(AttackDelay());
@@ -230,23 +239,18 @@ public class FightAgent : Agent
         }
         else StopBlocking();
 
-        // Get the closest character to us
-        closestCharacter = env.GetClosestCharacter(env.characters, transform.localPosition);
-
         if (env.AgentsCount <= 1) EndEpisode();
 
-        if (stamina.staminaValue <= stamina.attackStaminaCost || stamina.staminaValue <= stamina.blockStaminaCost) AddReward(-0.50f);
+        // if (stamina.staminaValue <= stamina.attackStaminaCost || stamina.staminaValue <= stamina.blockStaminaCost) AddReward(-0.50f);
 
         //if (closestCharacter != null)
         //{
         //    if (Vector3.Distance(transform.position, closestCharacter.transform.position) <= 1.5f) AddReward(0.25f / MaxStep);
         //}
 
-       // if (isInFrontOf) AddReward(0.25f / MaxStep);
+        // if (isInFrontOf) AddReward(0.25f / MaxStep);
 
-        //if (isInBackOf) AddReward(-0.5f / MaxStep);
-
-        AddReward(-1f / MaxStep);
+       //AddReward(-1f / MaxStep);
     }
 
     public override void Heuristic(in ActionBuffers actionsOut)
@@ -274,16 +278,13 @@ public class FightAgent : Agent
     {
         if (other.CompareTag("SwordHit"))
         {
-            if(!isBlocking && canBeHit)
+            if (!isBlocking && canBeHit)
             {
                 TakingDamage();
                 attackArea.gameObject.active = false;
                 StartCoroutine(canBeHitDelay());
             }
-        }
-        else if (other.CompareTag("SwordHit"))
-        {
-            if(isBlocking)  AddReward(0.5f);
+            else if (isBlocking) AddReward(0.2f);
         }
     }
 
@@ -293,7 +294,8 @@ public class FightAgent : Agent
         if (collision.gameObject.CompareTag("Bound"))
         {
             env.AgentsCount--;
-            AddReward(-6f);
+            env.AgentsCount--;
+            AddReward(-3f);
         }
         else if (collision.gameObject.CompareTag("Bottom")) env.AgentsCount--;
     }
@@ -323,7 +325,7 @@ public class FightAgent : Agent
     /// </summary>
     private void Attack()
     {
-        if(closestCharacter != null) if(Vector3.Distance(transform.position, closestCharacter.transform.position) >= 1.5f)   AddReward(-0.10f);
+       // if(closestCharacter != null) if(Vector3.Distance(transform.position, closestCharacter.transform.position) >= 1.3f)   AddReward(-0.10f);
 
 
         //Conditions
@@ -355,6 +357,7 @@ public class FightAgent : Agent
         yield return canMove = true;
         yield return canRotate = true;
         yield return canBlock = true;
+        yield return hasHitCondition = false;
     }
 
     IEnumerator canBeHitDelay()
@@ -393,7 +396,7 @@ public class FightAgent : Agent
         }
         else
         {
-            AddReward(-0.50f);
+            //AddReward(-0.50f);
             health -= damage;
             canBeHit = false;
         }
@@ -407,9 +410,11 @@ public class FightAgent : Agent
     {
         if(hasKilled)
         {
+            AddReward(2f);
             hasKilled = false;
+            hasHitCondition = true;
             env.AgentsCount--;
-            AddReward(1f);
+            env.AgentsCount--;
         }
     }
 
@@ -421,8 +426,9 @@ public class FightAgent : Agent
     {
         if(hasHit)
         {
-            hasHit = false;
-            AddReward(0.5f);
+            hasHitCondition = true;
+           //hasHit = false;
+           //AddReward(0.5f);
         }
     }
 

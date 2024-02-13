@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Net.Mail;
+using Unity.MLAgents;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
@@ -49,6 +50,9 @@ public class NPC_Fighter : MonoBehaviour
     Vector3 initalPosition;
 
     bool canChase = false;
+    bool canBlock = false;
+    bool isBlocking = false;
+    [HideInInspector] public bool isProtected = false;
 
     private void Awake()
     {
@@ -72,6 +76,21 @@ public class NPC_Fighter : MonoBehaviour
         closestCharacter = env.GetClosestCharacter(env.characters, transform.localPosition);
         transform.LookAt(closestCharacter.transform);
 
+        if(canBlock && isProtected) animator.Play(name = "Block");
+
+        Block();
+
+        if(closestCharacter != null)
+        {
+            if(closestCharacter.GetComponent<FightAgent>() != null)
+            {
+                FightAgent agent = closestCharacter.GetComponent<FightAgent>();
+
+                if (agent.isAttacking) canBlock = true;
+                else canBlock = false;
+            }
+        }
+
         if (closestCharacter != null)
         {
             float dist = Vector3.Distance(transform.position, closestCharacter.transform.position);
@@ -79,6 +98,7 @@ public class NPC_Fighter : MonoBehaviour
             if (dist <= sightRange && dist > attackRange) ChasePlayer();
             else if (dist <= sightRange && dist <= attackRange) AttackPlayer();
         }
+
 
         if (fightAgent.episodeBegin)
         {
@@ -95,11 +115,12 @@ public class NPC_Fighter : MonoBehaviour
         }
 
         HasKilled(attackArea.hasKilled);
+
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("BlueSwordHit"))
+        if (other.CompareTag("SwordHit"))
         {
             if(canBeHit)
             {
@@ -111,12 +132,15 @@ public class NPC_Fighter : MonoBehaviour
 
     private void TakingDamage()
     {
-        if (health > damage)
+        if(!isProtected)
         {
-            health -= damage;
-            canBeHit = false;
+            if (health > damage)
+            {
+                health -= damage;
+                canBeHit = false;
+            }
+            else env.AgentsCount--;
         }
-        else env.AgentsCount--;
     }
 
     private void ChasePlayer()
@@ -151,24 +175,48 @@ public class NPC_Fighter : MonoBehaviour
         }
     }
 
+    private void Block()
+    {
+        if (canBlock && !isBlocking)
+        {
+            StartCoroutine(BlockDelay());
+
+            int blockCondition;
+            blockCondition = Random.RandomRange(1, 3);
+
+            isBlocking = true;
+
+            if (blockCondition == 1) isProtected = true;
+        }
+
+    }
+
     private void HasKilled(bool hasKilled)
     {
         if (hasKilled)
         {
             hasKilled = false;
-            env.AgentsCount--;
+            //env.AgentsCount--;
         }
+    }
+
+    IEnumerator BlockDelay()
+    {
+        yield return new WaitForSeconds(0.5f);
+        yield return isProtected = false;
+        yield return canBlock = false;
+        yield return isBlocking = false;
     }
 
     IEnumerator ChaseDelay()
     {
-        yield return new WaitForSeconds(4f);
+        yield return new WaitForSeconds(1.5f);
         yield return canChase = true;
     }
 
     IEnumerator AttackDelay()
     {
-        yield return new WaitForSeconds(timeBetweenAttacks);
+        yield return new WaitForSeconds(Random.Range(1f, 1.5f));
         yield return alreadyAttacked = false;
     }
 
