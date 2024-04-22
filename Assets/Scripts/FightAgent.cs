@@ -75,6 +75,8 @@ public class FightAgent : Agent
 
     bool hasHitCondition = false;
 
+    public bool PlayerHitPermission;
+
     private void Awake()
     {
         animator = GetComponent<Animator>();
@@ -223,12 +225,29 @@ public class FightAgent : Agent
         // Get the closest character to us
         closestCharacter = env.GetClosestCharacter(env.characters, transform.localPosition);
 
-        //Attacking
-        if (attack && canAttack && stamina.attackStaminaCost <= stamina.staminaValue && Vector3.Distance(transform.position, closestCharacter.transform.position) <= 3f)
+        if(PlayerHitPermission)
         {
-            Attack();
-            StartCoroutine(AttackDelay());
+            if (attack && canAttack && stamina.attackStaminaCost <= stamina.staminaValue)
+            {
+                Attack();
+                StartCoroutine(AttackDelay());
+            }
         }
+        else if(!PlayerHitPermission)
+        {
+            if (attack && canAttack && stamina.attackStaminaCost <= stamina.staminaValue && Vector3.Distance(transform.position, closestCharacter.transform.position) <= 3f)
+            {
+                Attack();
+                StartCoroutine(AttackDelay());
+            }
+        }
+
+        ////Attacking
+        //if (attack && canAttack && stamina.attackStaminaCost <= stamina.staminaValue && Vector3.Distance(transform.position, closestCharacter.transform.position) <= 3f)
+        //{
+        //    Attack();
+        //    StartCoroutine(AttackDelay());
+        //}
 
         //Blocking
         if (stamina.blockStaminaCost <= stamina.staminaValue)
@@ -292,8 +311,8 @@ public class FightAgent : Agent
 
         if (collision.gameObject.CompareTag("Bound"))
         {
-            env.AgentsCount--;
-            env.AgentsCount--;
+            //env.AgentsCount--;
+            //env.AgentsCount--;
             AddReward(-3f);
         }
         else if (collision.gameObject.CompareTag("Bottom")) env.AgentsCount--;
@@ -324,7 +343,7 @@ public class FightAgent : Agent
     /// </summary>
     private void Attack()
     {
-       // if(closestCharacter != null) if(Vector3.Distance(transform.position, closestCharacter.transform.position) >= 1.3f)   AddReward(-0.10f);
+        AddReward(-0.10f);
 
 
         //Conditions
